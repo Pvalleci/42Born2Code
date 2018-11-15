@@ -85,8 +85,6 @@ char			**ft_strsplit(char const *s, char c)
 
 	if (!(s && c))
 		return (NULL);
-	if (s[0] == '\0')
-		return (0);
 	if (!(tab = (char **)malloc(sizeof(*tab) * ft_nb_word(s, c) + 1)))
 		return (NULL);
 	ft_malloc_tab(s, tab, c);

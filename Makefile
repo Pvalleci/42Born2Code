@@ -28,10 +28,12 @@ $(NAME) :
 
 all : $(NAME)
 
-re : all
+re :
+	gcc $(FLAGS) -c $(SOURCES)
+	ar rcs $(NAME) $(OBJETS)
 
 clean:
 	rm -rf $(OBJETS)
 
 fclean: clean
-	rm $(NAME)
+	rm -rf $(NAME)
