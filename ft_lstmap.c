@@ -16,6 +16,8 @@ t_list	*ft_lstmap(t_list *lst, t_list *(*f)(t_list *elem))
 {
 	t_list *newmaillon;
 
+	if (!(lst && f))
+		return (0);
 	if (lst->next != NULL)
 	{
 		newmaillon = ft_lstnew(lst->content, lst->content_size);
