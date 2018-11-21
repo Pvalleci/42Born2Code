@@ -6,7 +6,7 @@
 /*   By: pvalleci <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/11/12 15:59:45 by pvalleci          #+#    #+#             */
-/*   Updated: 2018/11/12 15:59:48 by pvalleci         ###   ########.fr       */
+/*   Updated: 2018/11/19 17:41:16 by pvalleci         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,8 +82,9 @@ void			ft_lstadd(t_list **alst, t_list *new);
 void			ft_lstiter(t_list *lst, void (*f)(t_list *elem));
 t_list			*ft_lstmap(t_list *lst, t_list *(*f)(t_list *elem));
 char			*ft_strrev(char *str);
-void			ft_putnbr_base(int nbr, char *base);
 char			*ft_strndup(const char *s, size_t n);
 void			ft_print_table(char **tab);
+char			*ft_strcapitalize(char *str);
+int				ft_sqrt(int nb);
 
 #endif
