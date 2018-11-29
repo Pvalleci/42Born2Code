@@ -149,7 +149,7 @@ t_list	*ft_parcour_list(t_list *maillon, const int fd)
 {
 	if (maillon->content_size != (size_t)fd && maillon->next != NULL)
 		return (ft_parcour_list(maillon->next, fd));
-	else if (maillon->content_size != (size_t)fd && maillon->next == NULL)
+	if (maillon->content_size != (size_t)fd && maillon->next == NULL)
 	{
 		printf("LE MAILLON N'A PAS ETE TROUVE\nCREATION D UN NOUVEAU MAILLON\n");
 		maillon->next = ft_lstnew(ft_getfile(fd), fd);
@@ -161,7 +161,6 @@ t_list	*ft_parcour_list(t_list *maillon, const int fd)
 
 int		get_next_line(const int fd, char **line)
 {
-	printf("\n--------------------------------\n\n");
 	static t_list *maillon = NULL;
 	t_list *ptr;
 	int		i;
@@ -176,11 +175,21 @@ int		get_next_line(const int fd, char **line)
 		ptr = ft_parcour_list(maillon, fd);
 	while (ptr->content[i] != '\n' && ptr->content[i])
 		i++;
-	*line = (char *)malloc(ft_strlen(ptr->content));
+	printf("i : %d\n", i);
+	*line = (char *)malloc(i);
 	*line = ft_strncpy(*line, ptr->content, i);
 	printf("line : %s\n", *line);
 	ptr->content = ft_clean_content(ptr->content, i);
 	printf("reste : %s", ptr->content);
+	// if (ptr->content[0] == '\0')
+	// {
+	// 	printf("CLEAN\n");
+	// 	maillon = ptr->next;
+	// 	free(ptr->content);
+	// 	free(ptr);
+	// 	ptr = NULL;
+	// }
+
 	printf("\n--------------FIN--------------\n\n");
 	return (0);
 }
@@ -193,11 +202,23 @@ int		main(void)
 
 	fd1 = open("texte1", O_RDONLY);
 	fd2 = open("texte2", O_RDONLY);
+	printf("********** TEXTE 1 ************\n");
 	get_next_line(fd1, &line);
+	free(line);
+	line = NULL;
+	printf("********** TEXTE 2 ************\n");	
 	get_next_line(fd2, &line);
+	free(line);
+	line = NULL;	
+	printf("********** TEXTE 1 ************\n");	
 	get_next_line(fd1, &line);
+	free(line);
+	line = NULL;	
+	printf("********** TEXTE 2 ************\n");	
+	get_next_line(fd2, &line);
+	free(line);
+	line = NULL;	
 	close(fd1);
 	close(fd2);
 	return 0;
 }
-
