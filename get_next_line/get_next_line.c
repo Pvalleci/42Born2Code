@@ -3,208 +3,93 @@
 /*                                                        :::      ::::::::   */
 /*   get_next_line.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pvalleci <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: juaalvar <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2018/11/19 15:53:04 by pvalleci          #+#    #+#             */
-/*   Updated: 2018/11/21 11:23:37 by pvalleci         ###   ########.fr       */
+/*   Created: 2018/12/01 23:31:24 by juaalvar          #+#    #+#             */
+/*   Updated: 2018/12/04 17:06:42 by pvalleci         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#define BUFF_SIZE 32
-#include <unistd.h>
-#include <sys/types.h>
-#include <sys/stat.h>
-#include <fcntl.h>
-#include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
+#include "get_next_line.h"
 
-
-
-char	*ft_strchr(const char *s, int c)
+static t_gnl	*ft_listnew(void const *content, size_t content_size)
 {
-	int		i;
-	char	l;
-	char	*str;
+	t_gnl	*newlist;
+	size_t	size;
 
-	i = 0;
-	l = (char)c;
-	str = (char *)s;
-	while (str[i])
-	{
-		if (str[i] == l)
-			return (str + i);
-		i++;
-	}
-	if (c == '\0')
-		return (str + i);
-	return (NULL);
+	size = ft_strlen(content);
+	if (!(newlist = (t_gnl*)malloc(sizeof(t_gnl) * 1)))
+		return (0);
+	newlist->content = ((void*)malloc(ft_strlen(content)));
+	newlist->content = ft_strncpy(newlist->content, content, size);
+	newlist->content_size = content_size;
+	newlist->index = 0;
+	newlist->nb = ft_strlen(content);
+	newlist->next = NULL;
+	return (newlist);
 }
 
-// char				*ft_strjoin(const char *s1, const char *s2)
-// {
-// 	const size_t 	l1 = strlen(s1);
-// 	const size_t 	l2 = strlen(s2);
-// 	char			*ptr;
-
-// 	if (!(ptr = malloc(l1 + l2 + 1)))
-// 		return (ptr);
-// 	while (*s1)
-// 		*ptr++ = *s1++;
-// 	while (*s2)
-// 		*ptr++ = *s2++;
-// 	*ptr = 0;
-// 	return (ptr - (l1 + l2));
-// }
-
-// #include <string.h>
-// char	*ft_getfile(const int fd)
-// {
-// 	char buf[BUFF_SIZE];
-// 	ssize_t	nblu;
-// 	char	*ptr;
-// 	char	*tmp;
-// 	char	*joe;
-
-// 	tmp = NULL;
-// 	while ((nblu = read(fd, buf, BUFF_SIZE)) > 0)
-// 	{
-// 		ptr = malloc(nblu + 1);
-// 		ptr[nblu] = 0;
-// 		ft_memcpy(ptr, buf, nblu);
-// 		if (!tmp)
-// 			tmp = ptr;
-// 		else
-// 		{
-// 			joe = ptr;
-// 			ptr = ft_strjoin(tmp, ptr);
-// 			free(tmp);
-// 			free(joe);
-// 			tmp = ptr;
-// 		}
-// 	}
-// 	return (ptr);
-// }
-
-size_t	ft_strlen(const char *s)
+static char		*ft_getfile(const int fd)
 {
-	size_t i;
-
-	i = 0;
-	while (s[i])
-		i++;
-	return (i);
-}
-
-void	ft_bzero(void *s, size_t n)
-{
-	char	*str;
-	int		i;
-
-	str = (char *)s;
-	i = 0;
-	while (n > 0)
-	{
-		str[i] = '\0';
-		i++;
-		n--;
-	}
-}
-
-char	*ft_realloc(char	*s, size_t n)
-{
-	char *new;
-	int	i;
-
-	i = 0;
-	new = malloc(n);
-	while (s[i])
-	{
-		new[i] = s[i];
-		i++;
-	}
-	new[i] = '\0'; 
-	return (new);
-}
-
-void	*ft_memcpy(void *dest, const void *src, size_t n)
-{
-	int		i;
-	char	*d;
 	char	*s;
+	int		nblu;
+	char	buf[BUFF_SIZE + 1];
+	char	*tmp;
 
+	nblu = read(fd, buf, BUFF_SIZE);
+	if (nblu == -1)
+		return (NULL);
+	buf[nblu] = '\0';
+	if (!(s = (char *)malloc(nblu)))
+		return (NULL);
+	s[nblu] = '\0';
+	s = ft_strncpy(s, buf, nblu);
+	while ((nblu = read(fd, buf, BUFF_SIZE)) > 0)
+	{
+		buf[nblu] = '\0';
+		tmp = s;
+		s = ft_strjoin(s, buf);
+		free(tmp);
+	}
+	return (s);
+}
+
+static t_gnl	*ft_parcour_list(t_gnl *maillon, const int fd)
+{
+	if (maillon->content_size != (size_t)fd && maillon->next != NULL)
+		return (ft_parcour_list(maillon->next, fd));
+	if (maillon->content_size != (size_t)fd && maillon->next == NULL)
+	{
+		maillon->next = ft_listnew(ft_getfile(fd), fd);
+		return (maillon->next);
+	}
+	return (maillon);
+}
+
+int				get_next_line(const int fd, char **line)
+{
+	static t_gnl	*maillon = NULL;
+	t_gnl			*ptr;
+	int				i;
+
+	if (fd < 0)
+		return (-1);
+	if (!maillon)
+		maillon = ft_listnew(ft_getfile(fd), fd);
+	ptr = ft_parcour_list(maillon, fd);
+	if (!ptr)
+		return (-1);
 	i = 0;
-	d = (char *)dest;
-	s = (char *)src;
-	while (n > 0)
+	while (ptr->content[ptr->index] != '\0' && ptr->content[ptr->index] == '\n')
+		ptr->index++;
+	while (ptr->content[ptr->index] && ptr->content[ptr->index] != '\n')
 	{
-		d[i] = s[i];
 		i++;
-		n--;
+		ptr->index++;
 	}
-	return ((void*)dest);
-}
-
-char	*ft_strcat(char *dest, const char *src)
-{
-	int i;
-	int j;
-
-	i = ft_strlen(dest);
-	j = 0;
-	while (src[j])
-	{
-		dest[i] = src[j];
-		i++;
-		j++;
-	}
-	dest[i] = '\0';
-	return (dest);
-}
-
-int	get_next_line(const int fd, char **line)
-{
-	char		tmp[BUFF_SIZE + 1];
-	ssize_t		ret;
-	static char	*dest;
-	int			j;
-	int			i;
-
-	if (!dest)//si dest n a  pas ete malloc
-		dest = malloc(BUFF_SIZE + 1);
-	while ((ret = read(fd, tmp, BUFF_SIZE)) > 0)//tant qu'il y a lire
-	{
-		tmp[BUFF_SIZE] = '\0';
-		printf("%s\n", tmp);
-		if (ft_strchr(tmp, '\n') == NULL)//cas ou il n y a pas de \n ds la lecture
-		{
-			ft_strcat(dest, tmp);
-			ft_bzero(tmp, BUFF_SIZE + 1);
-		}
-		else//cas ou il y a un \n ds la lecture
-		{
-			i = 0;
-			j = 0;
-			while (tmp[i] != '\n')
-				i++;
-			ft_memcpy(*line, tmp, i);
-			while (tmp[i])
-				dest[j++] = tmp[i++];
-			ft_bzero(tmp, BUFF_SIZE + 1);
-		}
-	}
+	*line = (char *)malloc(i);
+	*line = ft_strncpy(*line, ptr->content + ptr->index - i, i);
+	if (ptr->index + 1 == ptr->nb || ptr->content[0] == '\0')
+		return (0);
 	return (1);
-}
-
-int	main(int argc, char **argv)
-{
-	char *line;
-	int fd;
-
-	fd = open(argv[1], O_RDONLY);
-	get_next_line(fd, &line);
-	close(fd);
-	printf("%s\n", line);
-	argc = 1;
-	return (0);
 }
