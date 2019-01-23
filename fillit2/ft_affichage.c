@@ -19,11 +19,15 @@ void	ft_affiche_list(t_tetri	*list)
 	while (list != NULL)
 	{
 		i = 0;
+		ft_putchar(list->letter);
+		ft_putchar('\n');
 		while (i < 4)
 		{
 			ft_putstr(list->tab[i++]);
 			ft_putchar('\n');
 		}
+		ft_putchar('\n');
 		list = list->next;
 	}
+	return ;
 }

@@ -22,12 +22,18 @@ typedef struct		s_tetri
 {
 	char			**tab;
 	int				put;
+	char			letter;
 	struct s_tetri 	*next;
 }					t_tetri;
 
 int			get_next_line(const int fd, char **line);
 int			ft_check_tetriminos(char *str);
 void		ft_affiche_list(t_tetri	*list);
-t_list		*ft_correct_shift(t_list *list);
+t_tetri		*ft_correct_shift(t_tetri *list);
+void		free_list(t_tetri *list);
+void		ft_free_map(char **tab);
+char		**ft_erase_tetri(char **map, t_tetri *list);
+void		ft_solve(t_tetri *list);
+char		**ft_create_map(int len);
 
 #endif

@@ -30,7 +30,7 @@ char		*ft_get_tetriminos(int	fd)
 	return (str);
 }
 
-t_tetri		*ft_create_list(t_tetri *list, char *str)
+t_tetri		*ft_create_list(t_tetri *list, char *str, char lettre)
 {
 	int		i;
 	int		j;
@@ -45,11 +45,13 @@ t_tetri		*ft_create_list(t_tetri *list, char *str)
 		j++;
 		i = i + 4;
 	}
+	list->tab[j] = 0;
 	list->put = 0;
+	list->letter = lettre;
 	if (str[i] == '\0')
 		list->next = NULL;
 	else
-		list->next = ft_create_list(list->next, str + i);
+		list->next = ft_create_list(list->next, str + i, lettre + 1);
 	return (list);
 }
 
@@ -61,7 +63,7 @@ void		ft_fillit(int fd)
 
 	tetri = ft_get_tetriminos(fd);
 	printf("tetri : [%s]\n", tetri);
-	list = ft_create_list(list, tetri);
+	list = ft_create_list(list, tetri, 'A');
 	ft_correct_shift(list);
 	free(tetri);
 	ft_affiche_list(list);

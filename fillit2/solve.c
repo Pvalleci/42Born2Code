@@ -24,30 +24,20 @@ int		ft_check_all_put(t_tetri *list)
 	return (0);
 }
 
-void	free_list(t_tetri *list)
-{
-	t_tetri	*tmp;
-
-	tmp = list;
-	while (list != NULL)
-	{
-		while (i < 5)
-			free(list->tab[i++]);
-		list = list->next;
-		free(tmp);
-	}
-}
-
 char	**ft_create_map(int len)
 {
 	char	**map;
 	int 	i;
+	int		j;
 
 	i = 0;
 	map = (char **)malloc(sizeof(char *) * len + 1);
-	while (i < 5)
+	while (i < len)
 	{
+		j = 0;
 		map[i] = ft_strnew(len);
+		while (j < len)
+			map[i][j++] = '.';
 		i++;
 	}
 	map[i] = 0;

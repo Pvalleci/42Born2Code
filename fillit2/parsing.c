@@ -12,7 +12,6 @@
 
 #include "fillit.h"
 
-
 int		ft_check_tetriminos(char *str)//verf des tetri
 {
 	int		i;

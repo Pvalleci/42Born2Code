@@ -37,7 +37,7 @@ int		ft_check_shift(t_tetri *list)
 	return (ref);
 }
 
-t_list	*ft_correct_tetri(t_list *list, int decallage)
+t_tetri	*ft_correct_tetri(t_tetri *list, int decallage)
 {
 	int	j;
 	int i;
@@ -60,17 +60,19 @@ t_list	*ft_correct_tetri(t_list *list, int decallage)
 	return (list);
 }
 
-t_list	*ft_correct_shift(t_list *list)
+t_tetri	*ft_correct_shift(t_tetri *list)
 {
-	int		decallage;
-	t_list 	*start;
-
+	int			decallage;
+	t_tetri 	*start;
+	int			j;
+	
 	start = list;
 	while (list != NULL)
 	{
 		j = 0;
 		decallage = ft_check_shift(list);
-		ft_correct_tetri(list, decallage);
+		if (decallage != 0)
+			ft_correct_tetri(list, decallage);
 		list = list->next;
 	}
 	return (start);
