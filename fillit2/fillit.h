@@ -35,5 +35,7 @@ void		ft_free_map(char **tab);
 char		**ft_erase_tetri(char **map, t_tetri *list);
 void		ft_solve(t_tetri *list);
 char		**ft_create_map(int len);
+int			ft_check_all_put(t_tetri *list);
+char		**ft_resize_map(char **map);
 
 #endif

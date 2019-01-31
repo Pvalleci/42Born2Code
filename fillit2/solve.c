@@ -78,8 +78,9 @@ char	**ft_resize_map(char **map)
 	i = 0;
 	while (map[0][i])
 		i++;
+	printf("map[0]\n");
 	len = i;
-	new_map = ft_create_map(len);
+	new_map = ft_create_map(len + 1);
 	ft_copy_to_new_map(new_map, map);
 	ft_free_map(map);
 	return (new_map);

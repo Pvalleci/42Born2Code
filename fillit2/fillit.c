@@ -61,13 +61,12 @@ void		ft_fillit(int fd)
 	char 	*tetri;
 	t_tetri	*list;
 
-	tetri = ft_get_tetriminos(fd);
-	printf("tetri : [%s]\n", tetri);
-	list = ft_create_list(list, tetri, 'A');
-	ft_correct_shift(list);
-	free(tetri);
+	tetri = ft_get_tetriminos(fd);//recupere les tetri sous forme de chaine de char
+	list = ft_create_list(list, tetri, 'A');//mise sous forme de liste
+	ft_correct_shift(list);//met le tetri au bord de la grille
+	// free(tetri);
 	ft_affiche_list(list);
-	ft_solve(list);
+	// ft_solve(list);
 	return ;
 }
 

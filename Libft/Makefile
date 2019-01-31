@@ -1,6 +1,6 @@
 NAME = libft.a
 
-FLAGS = -Wall -Werror -Wextra
+FLAGS = -O0 -g -Wall -Werror -Wextra
 
 SOURCES = ft_memchr.c ft_putstr.c ft_strjoin.c ft_strsplit.c ft_memcmp.c \
 ft_putstr_fd.c ft_strlcat.c ft_strstr.c ft_atoi.c ft_memcpy.c ft_strcat.c \
