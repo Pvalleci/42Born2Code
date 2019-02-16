@@ -12,7 +12,7 @@
 
 #include "fillit.h"
 
-char		*ft_get_tetriminos(int	fd)
+char	*ft_get_tetriminos(int fd)
 {
 	char	*str;
 	char	*buf;
@@ -24,11 +24,11 @@ char		*ft_get_tetriminos(int	fd)
 		return (NULL);
 	while (get_next_line(fd, &buf))
 	{
-		if (i > 129)
-		{
-			free(str);
-			return (NULL);
-		}
+		// if (i > 129)
+		// {
+		// 	free(str);
+		// 	return (NULL);
+		// }
 		tmp = str;
 		str = ft_strjoin(str, buf);
 		free(tmp);
@@ -73,7 +73,16 @@ void		ft_fillit(int fd)
 
 	list = NULL;
 	if (!(tetri = ft_get_tetriminos(fd)))//recupere les tetri sous forme de chaine de char
+	{
+		ft_putendl("error");
 		return ;
+	}
+	// if (ft_check_tetriminos(tetri) == - 1)
+	// {
+	// 	printf("check tetri\n");
+	// 	ft_putendl("error");
+	// 	return ;
+	// }
 	list = ft_create_list(list, tetri, 'A');//mise sous forme de liste
 	ft_correct_shift(list);//met le tetri au bord de la grille
 	// free(tetri);

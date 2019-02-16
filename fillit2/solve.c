@@ -20,11 +20,11 @@ int		ft_can_put(char **map, t_tetri *list, int pos)
 	int		jm;
 
 	j = 0;
-	im = pos % ((int)ft_strlen(map[0])-1);
+	im = pos / ((int)ft_strlen(map[0])-1);
 	while (list->tab[j] && list->tab[j][0] != '\0')
 	{
 		i = 0;
-		jm = pos / ((int)ft_strlen(map[0])-1);
+		jm = pos % ((int)ft_strlen(map[0])-1);
 		if (!map[im] && list->tab[j])
 			return (0);
 		while (list->tab[j][i])
@@ -50,11 +50,11 @@ char	**ft_put_tetri(char **map, t_tetri *list, int pos)
 	int		jm;
 
 	i = 0;
-	im = pos %((int)ft_strlen(map[0]) - 1);
+	im = pos /((int)ft_strlen(map[0]) - 1);
 	while (list->tab[i])
 	{
 		j = 0;
-		jm = pos / ((int)ft_strlen(map[0]) - 1);
+		jm = pos % ((int)ft_strlen(map[0]) - 1);
 		while (list->tab[i][j])
 		{
 			if (list->tab[i][j] == '#')
@@ -74,7 +74,7 @@ void	ft_aff_tab(char **tab)
 	int i = 0;
 	while (tab[i])
 	{
-		printf("%s\n", tab[i]);
+		ft_putendl(tab[i]);
 		i++;
 	}
 	return ;
@@ -89,11 +89,15 @@ int		ft_backtrack(char **map, t_tetri *list, int pos)
 		return (1);
 	while (1)
 	{
-		if (pos >= (len * len))
-			return (2);
-		if (ft_can_put(map, list, pos) == 1)
+		printf("POS : %d\n", pos);
+		fflush(stdout);
+		if (pos >= (len * len)-1)
 		{
-			ft_put_tetri(map, list, pos);
+			return (2);
+		}
+		if (ft_can_put(map, list, pos) == 1)
+		{			
+			ft_put_tetri(map, list, pos);		
 			if (ft_backtrack(map, list->next, 0) == 1)
 				return (1);
 			else
@@ -112,17 +116,17 @@ void	ft_solve(t_tetri *list)
 	char	**map;
 	int		len;
 	int		pos;
+	int		ret;
 
 	len = 2;//sqrt (nbr de piece * 4
-	pos = 0;
 	map = ft_create_map(len);
 	while (ft_check_all_put(list) != 1)
 	{
-		if (ft_backtrack(map, list, 0) == 2)
+		pos = 0;
+		if ((ret = ft_backtrack(map, list, pos)) == 2)
 		{
 			map = ft_create_map(len++);
 		}
-		pos = 0;
 	}
 	ft_aff_tab(map);
 	return ;

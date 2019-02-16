@@ -11,6 +11,8 @@ LIBDIR	=	libft
 
 LIB		=	$(LIBDIR)/libft.a
 
+all : $(NAME)
+
 $(NAME)	:	$(LIB)
 	@gcc $(FLAGS) $(SRC) $(LIB) -o $(NAME) -I $(INC)
 
@@ -25,5 +27,8 @@ fclean :
 	@make -C $(LIBDIR) fclean
 
 re : fclean all
+
+debug : 
+	@gcc -fsanitize=address $(SRC) $(LIB) -o $(NAME) -I $(INC)
 
 .PHONY : all, re, clean, fclean

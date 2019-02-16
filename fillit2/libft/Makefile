@@ -17,17 +17,17 @@ ft_strrev.c ft_strndup.c ft_print_table.c ft_strcapitalize.c ft_sqrt.c
 OBJETS = $(SOURCES:.c=.o)
 
 $(NAME) :
-	gcc $(FLAGS) -c $(SOURCES)
-	ar rcs $(NAME) $(OBJETS)
+	@gcc $(FLAGS) -c $(SOURCES)
+	@ar rcs $(NAME) $(OBJETS)
 
 all : $(NAME)
 
 re :
-	gcc $(FLAGS) -c $(SOURCES)
-	ar rcs $(NAME) $(OBJETS)
+	@gcc $(FLAGS) -c $(SOURCES)
+	@ar rcs $(NAME) $(OBJETS)
 
 clean:
-	rm -rf $(OBJETS)
+	@rm -rf $(OBJETS)
 
 fclean: clean
-	rm -rf $(NAME)
+	@rm -rf $(NAME)
