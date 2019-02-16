@@ -1,34 +1,30 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_affichage.c                                     :+:      :+:    :+:   */
+/*   ft_putendl_fd.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pvalleci <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: juaalvar <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2019/01/18 23:23:39 by pvalleci          #+#    #+#             */
-/*   Updated: 2019/01/18 23:23:45 by pvalleci         ###   ########.fr       */
+/*   Created: 2018/11/12 02:23:09 by juaalvar          #+#    #+#             */
+/*   Updated: 2018/11/12 02:23:10 by juaalvar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "fillit.h"
+#include "libft.h"
+#include <unistd.h>
 
-void	ft_affiche_list(t_tetri	*list)
+void	ft_putendl_fd(char const *s, int fd)
 {
 	int i;
 
-	while (list != NULL)
+	i = 0;
+	if (s)
 	{
-		i = 0;
-		ft_putchar(list->letter);
-		ft_putchar('\n');
-		while (list->tab[i] != '\0')
+		while (s[i])
 		{
-			ft_putstr(list->tab[i]);
-			ft_putchar('\n');
+			write(fd, &s[i], 1);
 			i++;
 		}
-		ft_putchar('\n');
-		list = list->next;
+		write(fd, "\n", 1);
 	}
-	return ;
 }

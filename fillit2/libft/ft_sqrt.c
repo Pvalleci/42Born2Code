@@ -1,34 +1,31 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_affichage.c                                     :+:      :+:    :+:   */
+/*   ft_sqrt.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: pvalleci <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2019/01/18 23:23:39 by pvalleci          #+#    #+#             */
-/*   Updated: 2019/01/18 23:23:45 by pvalleci         ###   ########.fr       */
+/*   Created: 2018/08/31 01:39:43 by pvalleci          #+#    #+#             */
+/*   Updated: 2018/11/20 18:16:51 by pvalleci         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "fillit.h"
+#include "libft.h"
 
-void	ft_affiche_list(t_tetri	*list)
+int		ft_sqrt(int nb)
 {
-	int i;
+	int a;
+	int b;
 
-	while (list != NULL)
+	a = nb;
+	b = 1;
+	while (a > b)
 	{
-		i = 0;
-		ft_putchar(list->letter);
-		ft_putchar('\n');
-		while (list->tab[i] != '\0')
-		{
-			ft_putstr(list->tab[i]);
-			ft_putchar('\n');
-			i++;
-		}
-		ft_putchar('\n');
-		list = list->next;
+		a = (a + b) / 2;
+		b = nb / a;
 	}
-	return ;
+	if ((a * a) == nb)
+		return (a);
+	else
+		return (0);
 }

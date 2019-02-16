@@ -1,34 +1,36 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_affichage.c                                     :+:      :+:    :+:   */
+/*   ft_strrev.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: pvalleci <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2019/01/18 23:23:39 by pvalleci          #+#    #+#             */
-/*   Updated: 2019/01/18 23:23:45 by pvalleci         ###   ########.fr       */
+/*   Created: 2018/11/19 12:02:44 by pvalleci          #+#    #+#             */
+/*   Updated: 2018/11/19 12:02:46 by pvalleci         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "fillit.h"
+#include "libft.h"
+#include <stdlib.h>
 
-void	ft_affiche_list(t_tetri	*list)
+char	*ft_strrev(char *str)
 {
-	int i;
+	char	*s;
+	int		i;
+	int		j;
 
-	while (list != NULL)
+	i = 0;
+	j = ft_strlen(str);
+	s = (char *)malloc(sizeof(s) * j + 1);
+	j--;
+	while (j > 0)
 	{
-		i = 0;
-		ft_putchar(list->letter);
-		ft_putchar('\n');
-		while (list->tab[i] != '\0')
-		{
-			ft_putstr(list->tab[i]);
-			ft_putchar('\n');
-			i++;
-		}
-		ft_putchar('\n');
-		list = list->next;
+		s[i] = str[j];
+		i++;
+		j--;
 	}
-	return ;
+	s[i] = str[j];
+	i++;
+	s[i] = '\0';
+	return (s);
 }

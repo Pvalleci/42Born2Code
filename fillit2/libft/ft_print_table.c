@@ -1,34 +1,32 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_affichage.c                                     :+:      :+:    :+:   */
+/*   ft_print_table.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: pvalleci <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2019/01/18 23:23:39 by pvalleci          #+#    #+#             */
-/*   Updated: 2019/01/18 23:23:45 by pvalleci         ###   ########.fr       */
+/*   Created: 2018/11/19 13:44:54 by pvalleci          #+#    #+#             */
+/*   Updated: 2018/11/19 13:44:56 by pvalleci         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "fillit.h"
+#include "libft.h"
 
-void	ft_affiche_list(t_tetri	*list)
+void	ft_print_table(char **tab)
 {
 	int i;
+	int j;
 
-	while (list != NULL)
+	i = 1;
+	while (tab[i])
 	{
-		i = 0;
-		ft_putchar(list->letter);
-		ft_putchar('\n');
-		while (list->tab[i] != '\0')
+		j = 0;
+		while (tab[i][j])
 		{
-			ft_putstr(list->tab[i]);
-			ft_putchar('\n');
-			i++;
+			ft_putchar(tab[i][j]);
+			j++;
 		}
 		ft_putchar('\n');
-		list = list->next;
+		i++;
 	}
-	return ;
 }

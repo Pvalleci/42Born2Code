@@ -1,34 +1,31 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_affichage.c                                     :+:      :+:    :+:   */
+/*   ft_strndup.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: pvalleci <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2019/01/18 23:23:39 by pvalleci          #+#    #+#             */
-/*   Updated: 2019/01/18 23:23:45 by pvalleci         ###   ########.fr       */
+/*   Created: 2018/11/19 12:53:39 by pvalleci          #+#    #+#             */
+/*   Updated: 2018/11/19 12:53:40 by pvalleci         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "fillit.h"
+#include "libft.h"
+#include <stdlib.h>
 
-void	ft_affiche_list(t_tetri	*list)
+char	*ft_strndup(const char *s, size_t n)
 {
-	int i;
+	char	*cpy;
+	size_t	i;
 
-	while (list != NULL)
+	i = 0;
+	if (!(cpy = (char *)malloc(sizeof(char) * (n + 1))))
+		return (NULL);
+	while (i < n && s[i])
 	{
-		i = 0;
-		ft_putchar(list->letter);
-		ft_putchar('\n');
-		while (list->tab[i] != '\0')
-		{
-			ft_putstr(list->tab[i]);
-			ft_putchar('\n');
-			i++;
-		}
-		ft_putchar('\n');
-		list = list->next;
+		cpy[i] = (char)s[i];
+		i++;
 	}
-	return ;
+	cpy[i] = '\0';
+	return (cpy);
 }

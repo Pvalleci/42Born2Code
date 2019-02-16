@@ -101,6 +101,26 @@ t_tetri	*ft_correct_void_line(t_tetri *list, int decallage)
 	return (list);
 }
 
+t_tetri	*ft_end_of_line(t_tetri *list)
+{
+	int i;
+	int	j;
+
+	i = 0;
+	while (list->tab[i])
+	{
+		j = 0;
+		while (list->tab[i][j])
+		{
+			if (list->tab[i][j] != '#' && list->tab[i][j+1] != '#')
+				list->tab[i][j] = '\0';
+			j++;
+		}
+		i++;
+	}
+	return (list);
+}
+
 t_tetri	*ft_correct_shift(t_tetri *list)
 {
 	int			decallage;
@@ -117,6 +137,7 @@ t_tetri	*ft_correct_shift(t_tetri *list)
 		decallage = ft_check_void_line(list);
 		if (decallage != 0)
 			ft_correct_void_line(list, decallage);
+		ft_end_of_line(list);
 		list = list->next;
 	}
 	return (start);

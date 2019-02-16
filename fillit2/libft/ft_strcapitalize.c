@@ -1,34 +1,40 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_affichage.c                                     :+:      :+:    :+:   */
+/*   ft_strcapitalize.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: pvalleci <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2019/01/18 23:23:39 by pvalleci          #+#    #+#             */
-/*   Updated: 2019/01/18 23:23:45 by pvalleci         ###   ########.fr       */
+/*   Created: 2018/09/13 02:11:53 by pvalleci          #+#    #+#             */
+/*   Updated: 2018/11/20 18:06:30 by pvalleci         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "fillit.h"
+#include "libft.h"
 
-void	ft_affiche_list(t_tetri	*list)
+char	*ft_strcapitalize(char *str)
 {
 	int i;
 
-	while (list != NULL)
+	i = 0;
+	while (str[i] != '\0')
 	{
-		i = 0;
-		ft_putchar(list->letter);
-		ft_putchar('\n');
-		while (list->tab[i] != '\0')
+		if (str[i] <= 'Z' && str[i] >= 'A')
 		{
-			ft_putstr(list->tab[i]);
-			ft_putchar('\n');
-			i++;
+			str[i] = str[i] + 32;
 		}
-		ft_putchar('\n');
-		list = list->next;
+		i++;
 	}
-	return ;
+	i = 0;
+	while (str[i] != '\0')
+	{
+		if ((str[i] <= 'z' && str[i] >= 'a') && (!((str[i - 1] >= '0' &&
+			str[i - 1] <= '9') || (str[i - 1] <= 'z' && str[i - 1] >= 'a') ||
+			(str[i - 1] <= 'Z' && str[i - 1] >= 'A'))))
+		{
+			str[i] = str[i] - 32;
+		}
+		i++;
+	}
+	return (str);
 }
