@@ -69,7 +69,7 @@ int		ft_check_void_line(t_tetri *list)
 	decallage = 0;
 	while (list->tab[i])
 	{
-		if (list->tab[i][0] == '.' && list->tab[i][1] == '.')
+		if (list->tab[i][0] == '.' && list->tab[i][1] == '.' && list->tab[i][2] == '.')
 			decallage++;
 		else
 			break ;
@@ -78,7 +78,7 @@ int		ft_check_void_line(t_tetri *list)
 	return (decallage);
 }
 
-t_tetri	*ft_correct_void_line(t_tetri *list, int decallage)
+t_tetri		*ft_correct_void_line(t_tetri *list, int decallage)
 {
 	int		i;
 	int		j;
@@ -109,12 +109,12 @@ t_tetri	*ft_end_of_line(t_tetri *list)
 	i = 0;
 	while (list->tab[i])
 	{
-		j = 0;
-		while (list->tab[i][j])
+		j = 3;
+		while (list->tab[i][j] != '#' && j >= 0)
 		{
-			if (list->tab[i][j] != '#' && list->tab[i][j+1] != '#')
+			if (list->tab[i][j] == '.')
 				list->tab[i][j] = '\0';
-			j++;
+			j--;
 		}
 		i++;
 	}
@@ -136,7 +136,9 @@ t_tetri	*ft_correct_shift(t_tetri *list)
 			ft_correct_tetri(list, decallage);
 		decallage = ft_check_void_line(list);
 		if (decallage != 0)
+		{
 			ft_correct_void_line(list, decallage);
+		}
 		ft_end_of_line(list);
 		list = list->next;
 	}

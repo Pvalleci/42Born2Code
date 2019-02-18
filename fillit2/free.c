@@ -27,17 +27,20 @@ void	ft_free_map(char **tab)
 	return ;
 }
 
-void	free_list(t_tetri *list)
+void	ft_free_list(t_tetri *list)
 {
-	t_tetri	*tmp;
-	int		i;
+	t_tetri		*tmp;
+	int			i;
 
-	i = 0;
-	tmp = list;
 	while (list != NULL)
 	{
+		tmp = list;
+		i = 0;
 		while (i < 5)
-			free(list->tab[i++]);
+		{
+			free(list->tab[i]);
+			i++;
+		}
 		list = list->next;
 		free(tmp);
 	}

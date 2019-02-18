@@ -69,12 +69,12 @@ char	**ft_create_map(int len)
 // }
 
 
-char	**ft_resize_map(char **map, int len)
-{
-	char	**new_map;
+// char	**ft_resize_map(char **map, int len)
+// {
+// 	char	**new_map;
 
-	new_map = ft_create_map(len);
-	// ft_copy_to_new_map(new_map, map);
-	ft_free_map(map);
-	return (new_map);
-}
+// 	new_map = ft_create_map(len);
+// 	// ft_copy_to_new_map(new_map, map);
+// 	ft_free_map(map);
+// 	return (new_map);
+// }

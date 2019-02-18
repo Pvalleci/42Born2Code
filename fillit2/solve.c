@@ -82,22 +82,20 @@ void	ft_aff_tab(char **tab)
 
 int		ft_backtrack(char **map, t_tetri *list, int pos)
 {
-	int 	len;
+	int		len;
 
 	len = (int)ft_strlen(map[0]);
 	if (list == NULL)
 		return (1);
 	while (1)
 	{
-		printf("POS : %d\n", pos);
-		fflush(stdout);
 		if (pos >= (len * len)-1)
 		{
 			return (2);
 		}
 		if (ft_can_put(map, list, pos) == 1)
 		{			
-			ft_put_tetri(map, list, pos);		
+			ft_put_tetri(map, list, pos);
 			if (ft_backtrack(map, list->next, 0) == 1)
 				return (1);
 			else
@@ -125,9 +123,11 @@ void	ft_solve(t_tetri *list)
 		pos = 0;
 		if ((ret = ft_backtrack(map, list, pos)) == 2)
 		{
+			ft_free_map(map);
 			map = ft_create_map(len++);
 		}
 	}
 	ft_aff_tab(map);
+	ft_free_map(map);
 	return ;
 }

@@ -85,8 +85,9 @@ void		ft_fillit(int fd)
 	// }
 	list = ft_create_list(list, tetri, 'A');//mise sous forme de liste
 	ft_correct_shift(list);//met le tetri au bord de la grille
-	// free(tetri);
+	free(tetri);
 	ft_solve(list);
+	ft_free_list(list);
 	return ;
 }
 
