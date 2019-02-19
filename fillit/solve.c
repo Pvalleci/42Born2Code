@@ -90,12 +90,12 @@ int		ft_backtrack(char **map, t_tetri *list, int pos)
 		return (1);
 	while (1)
 	{
-		if (pos >= (len * len)-1)
+		if (pos >= (len * len) - 1)
 		{
 			return (2);
 		}
 		if (ft_can_put(map, list, pos) == 1)
-		{			
+		{
 			ft_put_tetri(map, list, pos);
 			if (ft_backtrack(map, list->next, 0) == 1)
 				return (1);

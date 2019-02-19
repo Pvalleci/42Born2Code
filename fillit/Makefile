@@ -31,4 +31,4 @@ re : fclean all
 debug : 
 	@gcc -fsanitize=address $(SRC) $(LIB) -o $(NAME) -I $(INC)
 
-.PHONY : all, re, clean, fclean
+.PHONY : all, re, clean, fclean, debug
