@@ -12,7 +12,7 @@
 
 #include "fillit.h"
 
-char	*ft_get_tetriminos(int fd)
+char		*ft_get_tetriminos(int fd)
 {
 	char	*str;
 	char	*buf;
@@ -24,11 +24,6 @@ char	*ft_get_tetriminos(int fd)
 		return (NULL);
 	while (get_next_line(fd, &buf))
 	{
-		// if (i > 129)
-		// {
-		// 	free(str);
-		// 	return (NULL);
-		// }
 		tmp = str;
 		str = ft_strjoin(str, buf);
 		free(tmp);
@@ -65,14 +60,13 @@ t_tetri		*ft_create_list(t_tetri *list, char *str, char lettre)
 	return (list);
 }
 
-
 void		ft_fillit(int fd)
 {
-	char 	*tetri;
-	t_tetri	*list;
+	char		*tetri;
+	t_tetri		*list;
 
 	list = NULL;
-	if (!(tetri = ft_get_tetriminos(fd)))//recupere les tetri sous forme de chaine de char
+	if (!(tetri = ft_get_tetriminos(fd)))
 	{
 		ft_putendl("error");
 		return ;
@@ -83,18 +77,18 @@ void		ft_fillit(int fd)
 	// 	ft_putendl("error");
 	// 	return ;
 	// }
-	list = ft_create_list(list, tetri, 'A');//mise sous forme de liste
-	ft_correct_shift(list);//met le tetri au bord de la grille
+	list = ft_create_list(list, tetri, 'A');
+	ft_correct_shift(list);
 	free(tetri);
 	ft_solve(list);
 	ft_free_list(list);
 	return ;
 }
 
-int		main(int argc, char **argv)
+int			main(int argc, char **argv)
 {
 	int fd;
-	
+
 	if (argc != 2)
 	{
 		ft_putendl("usage: ./a.out target_file");

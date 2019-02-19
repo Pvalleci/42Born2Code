@@ -1,7 +1,7 @@
 NAME	= 	fillit
 
 SRC		=	fillit.c free.c ft_affichage.c get_next_line.c\
-			map.c parsing.c shift.c solve.c
+			map.c parsing.c shift.c shift2.c solve.c
 
 FLAGS	=	-Wall -Wextra -Werror
 

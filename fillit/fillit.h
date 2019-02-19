@@ -11,31 +11,32 @@
 /* ************************************************************************** */
 
 #ifndef FILLIT_H
-#define S_TETRI
+# define FILLIT_H
 
-#include <stdlib.h>
-#include <stdio.h>
-#include "get_next_line.h"
-#include "libft/libft.h"
+# include <stdlib.h>
+# include <stdio.h>
+# include "get_next_line.h"
+# include "libft/libft.h"
 
 typedef struct		s_tetri
 {
 	char			**tab;
 	int				put;
 	char			letter;
-	struct s_tetri 	*next;
+	struct s_tetri	*next;
 }					t_tetri;
-
-int			get_next_line(const int fd, char **line);
-int			ft_check_tetriminos(char *str);
-void		ft_affiche_list(t_tetri	*list);
-t_tetri		*ft_correct_shift(t_tetri *list);
-void		ft_free_list(t_tetri *list);
-void		ft_free_map(char **tab);
-char		**ft_erase_tetri(char **map, t_tetri *list);
-void		ft_solve(t_tetri *list);
-char		**ft_create_map(int len);
-int			ft_check_all_put(t_tetri *list);
-char		**ft_resize_map(char **map, int len);
+int					get_next_line(const int fd, char **line);
+int					ft_check_tetriminos(char *str);
+void				ft_affiche_list(t_tetri	*list);
+t_tetri				*ft_correct_shift(t_tetri *list);
+void				ft_free_list(t_tetri *list);
+void				ft_free_map(char **tab);
+char				**ft_erase_tetri(char **map, t_tetri *list);
+void				ft_solve(t_tetri *list);
+char				**ft_create_map(int len);
+int					ft_check_all_put(t_tetri *list);
+char				**ft_resize_map(char **map, int len);
+int					ft_check_void_line(t_tetri *list);
+t_tetri				*ft_correct_void_line(t_tetri *list, int decallage);
 
 #endif

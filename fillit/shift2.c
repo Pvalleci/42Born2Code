@@ -1,67 +1,55 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   free.c                                             :+:      :+:    :+:   */
+/*   shift2.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: pvalleci <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2019/01/23 11:34:03 by pvalleci          #+#    #+#             */
-/*   Updated: 2019/01/23 11:34:05 by pvalleci         ###   ########.fr       */
+/*   Created: 2019/02/19 15:27:45 by pvalleci          #+#    #+#             */
+/*   Updated: 2019/02/19 15:27:48 by pvalleci         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "fillit.h"
 
-void	ft_free_map(char **tab)
+int			ft_check_void_line(t_tetri *list)
 {
 	int		i;
+	int		decallage;
 
 	i = 0;
-	while (tab[i])
+	decallage = 0;
+	while (list->tab[i])
 	{
-		free(tab[i]);
+		if (list->tab[i][0] == '.' && list->tab[i][1] == '.'
+			&& list->tab[i][2] == '.')
+			decallage++;
+		else
+			break ;
 		i++;
 	}
-	free(tab[i]);
-	free(tab);
-	return ;
+	return (decallage);
 }
 
-void	ft_free_list(t_tetri *list)
-{
-	t_tetri		*tmp;
-	int			i;
-
-	while (list != NULL)
-	{
-		tmp = list;
-		i = 0;
-		while (i < 5)
-		{
-			free(list->tab[i]);
-			i++;
-		}
-		list = list->next;
-		free(tmp);
-	}
-}
-
-char	**ft_erase_tetri(char **map, t_tetri *list)
+t_tetri		*ft_correct_void_line(t_tetri *list, int decallage)
 {
 	int		i;
 	int		j;
 
 	i = 0;
-	while (map[i])
+	while (list->tab[i])
 	{
 		j = 0;
-		while(map[i][j])
+		while (list->tab[i][j])
 		{
-			if (map[i][j] == list->letter)
-				map[i][j] = '.';
+			if (list->tab[i][j] == '#')
+			{
+				list->tab[i - decallage][j] = '#';
+				list->tab[i][j] = '.';
+			}
 			j++;
 		}
 		i++;
 	}
-	return (map);
+	return (list);
 }

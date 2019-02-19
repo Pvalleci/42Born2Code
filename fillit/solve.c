@@ -1,4 +1,4 @@
- /* ************************************************************************** */
+/* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
 /*   solve2.c                                           :+:      :+:    :+:   */
@@ -20,18 +20,17 @@ int		ft_can_put(char **map, t_tetri *list, int pos)
 	int		jm;
 
 	j = 0;
-	im = pos / ((int)ft_strlen(map[0])-1);
+	im = pos / ((int)ft_strlen(map[0]) - 1);
 	while (list->tab[j] && list->tab[j][0] != '\0')
 	{
 		i = 0;
-		jm = pos % ((int)ft_strlen(map[0])-1);
+		jm = pos % ((int)ft_strlen(map[0]) - 1);
 		if (!map[im] && list->tab[j])
 			return (0);
 		while (list->tab[j][i])
 		{
-			if (map[im][jm] == '\0' && list->tab[j][i] != '\0')
-				return (0);
-			if (list->tab[j][i] == '#' && map[im][jm] >= 'A' && map[im][jm] <= 'Z')
+			if ((map[im][jm] == '\0' && list->tab[j][i] != '\0')
+				|| (list->tab[j][i] == '#' && map[im][jm] != '.'))
 				return (0);
 			i++;
 			jm++;
@@ -50,7 +49,7 @@ char	**ft_put_tetri(char **map, t_tetri *list, int pos)
 	int		jm;
 
 	i = 0;
-	im = pos /((int)ft_strlen(map[0]) - 1);
+	im = pos / ((int)ft_strlen(map[0]) - 1);
 	while (list->tab[i])
 	{
 		j = 0;
@@ -71,7 +70,9 @@ char	**ft_put_tetri(char **map, t_tetri *list, int pos)
 
 void	ft_aff_tab(char **tab)
 {
-	int i = 0;
+	int i;
+
+	i = 0;
 	while (tab[i])
 	{
 		ft_putendl(tab[i]);
@@ -116,7 +117,7 @@ void	ft_solve(t_tetri *list)
 	int		pos;
 	int		ret;
 
-	len = 2;//sqrt (nbr de piece * 4
+	len = 2;
 	map = ft_create_map(len);
 	while (ft_check_all_put(list) != 1)
 	{

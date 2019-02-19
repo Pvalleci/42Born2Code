@@ -27,7 +27,7 @@ int		ft_check_all_put(t_tetri *list)
 char	**ft_create_map(int len)
 {
 	char	**map;
-	int 	i;
+	int		i;
 	int		j;
 
 	i = 0;
@@ -44,37 +44,3 @@ char	**ft_create_map(int len)
 	map[i] = 0;
 	return (map);
 }
-
-// char	**ft_copy_to_new_map(char **new_map, char **map)
-// {
-// 	int i;
-// 	int j;
-
-// 	i = 0;
-// 	while (map[i])
-// 	{
-// 		j = 0;
-// 		while (map[i][j])
-// 		{
-// 			new_map[i][j] = map[i][j];
-// 			j++;
-// 		}
-// 		new_map[i][j] = '.';
-// 		i++;
-// 	}
-// 	new_map[i][j] = '.';
-// 	while (j > 0)
-// 		new_map[i][j--] = '.';
-// 	return (new_map);
-// }
-
-
-// char	**ft_resize_map(char **map, int len)
-// {
-// 	char	**new_map;
-
-// 	new_map = ft_create_map(len);
-// 	// ft_copy_to_new_map(new_map, map);
-// 	ft_free_map(map);
-// 	return (new_map);
-// }
