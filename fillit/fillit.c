@@ -25,11 +25,18 @@ char		*ft_get_tetriminos(int fd)
 	while (get_next_line(fd, &buf))
 	{
 		tmp = str;
+		if ((i+1) % 5 == 0)
+			if (buf[0] != '\0')
+				return (NULL);
+		if (ft_check_buf(buf) == 0)
+			return (NULL);
 		str = ft_strjoin(str, buf);
 		free(tmp);
 		free(buf);
 		i++;
 	}
+	if (((i + 1) % 5) != 0)
+		return (NULL);
 	return (str);
 }
 
@@ -71,13 +78,14 @@ void		ft_fillit(int fd)
 		ft_putendl("error");
 		return ;
 	}
-	// if (ft_check_tetriminos(tetri) == - 1)
-	// {
-	// 	printf("check tetri\n");
-	// 	ft_putendl("error");
-	// 	return ;
-	// }
 	list = ft_create_list(list, tetri, 'A');
+	if (list == NULL)
+		return ;
+	if (ft_check_list(list) == 0)
+	{
+		ft_putendl("error");
+		return ;
+	}
 	ft_correct_shift(list);
 	free(tetri);
 	ft_solve(list);

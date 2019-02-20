@@ -26,7 +26,6 @@ typedef struct		s_tetri
 	struct s_tetri	*next;
 }					t_tetri;
 int					get_next_line(const int fd, char **line);
-int					ft_check_tetriminos(char *str);
 void				ft_affiche_list(t_tetri	*list);
 t_tetri				*ft_correct_shift(t_tetri *list);
 void				ft_free_list(t_tetri *list);
@@ -38,5 +37,7 @@ int					ft_check_all_put(t_tetri *list);
 char				**ft_resize_map(char **map, int len);
 int					ft_check_void_line(t_tetri *list);
 t_tetri				*ft_correct_void_line(t_tetri *list, int decallage);
+int					ft_check_buf(char *buf);
+int					ft_check_list(t_tetri *list);
 
 #endif

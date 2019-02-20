@@ -20,11 +20,11 @@ int		ft_can_put(char **map, t_tetri *list, int pos)
 	int		jm;
 
 	j = 0;
-	im = pos / ((int)ft_strlen(map[0]) - 1);
+	im = pos / ((int)ft_strlen(map[0]));
 	while (list->tab[j] && list->tab[j][0] != '\0')
 	{
 		i = 0;
-		jm = pos % ((int)ft_strlen(map[0]) - 1);
+		jm = pos % ((int)ft_strlen(map[0]));
 		if (!map[im] && list->tab[j])
 			return (0);
 		while (list->tab[j][i])
@@ -49,11 +49,11 @@ char	**ft_put_tetri(char **map, t_tetri *list, int pos)
 	int		jm;
 
 	i = 0;
-	im = pos / ((int)ft_strlen(map[0]) - 1);
+	im = pos / ((int)ft_strlen(map[0]));
 	while (list->tab[i])
 	{
 		j = 0;
-		jm = pos % ((int)ft_strlen(map[0]) - 1);
+		jm = pos % ((int)ft_strlen(map[0]));
 		while (list->tab[i][j])
 		{
 			if (list->tab[i][j] == '#')
@@ -91,12 +91,10 @@ int		ft_backtrack(char **map, t_tetri *list, int pos)
 	while (1)
 	{
 		if (pos >= (len * len) - 1)
-		{
 			return (2);
-		}
 		if (ft_can_put(map, list, pos) == 1)
 		{
-			ft_put_tetri(map, list, pos);
+			ft_put_tetri(map, list, pos);			
 			if (ft_backtrack(map, list->next, 0) == 1)
 				return (1);
 			else
@@ -114,15 +112,12 @@ void	ft_solve(t_tetri *list)
 {
 	char	**map;
 	int		len;
-	int		pos;
-	int		ret;
 
 	len = 2;
 	map = ft_create_map(len);
 	while (ft_check_all_put(list) != 1)
 	{
-		pos = 0;
-		if ((ret = ft_backtrack(map, list, pos)) == 2)
+		if (ft_backtrack(map, list, 0) == 2)
 		{
 			ft_free_map(map);
 			map = ft_create_map(len++);
