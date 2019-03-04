@@ -11,7 +11,6 @@
 /* ************************************************************************** */
 
 #include "get_next_line.h"
-#include "libft.h"
 
 char		*ft_input_line(char **line, char *tab)
 {
@@ -60,6 +59,9 @@ int			get_next_line(const int fd, char **line)
 	tmp = tb[fd];
 	tb[fd] = ft_input_line(line, tb[fd]);
 	if ((tb[fd] == NULL && tmp == NULL) || tmp[0] == '\0')
+	{
+		free(tb[fd]);
 		return (0);
+	}
 	return (1);
 }

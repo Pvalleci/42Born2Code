@@ -1,27 +1,35 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   get_next_line.h                                    :+:      :+:    :+:   */
+/*   ft_putnbr_fd.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: pvalleci <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2019/01/11 16:37:59 by pvalleci          #+#    #+#             */
-/*   Updated: 2019/01/11 16:38:01 by pvalleci         ###   ########.fr       */
+/*   Created: 2019/03/04 14:36:23 by pvalleci          #+#    #+#             */
+/*   Updated: 2019/03/04 14:36:25 by pvalleci         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef GET_NEXT_LINE_H
+#include "libft.h"
 
-# define GET_NEXT_LINE_H
-# define BUFF_SIZE 1
-# include <unistd.h>
-# include <stdlib.h>
-# include <limits.h>
-# include <stdio.h>
-# include <fcntl.h>
-# include <sys/types.h>
-# include <sys/stat.h>
-# include "libft/libft.h"
-
-int				get_next_line(const int fd, char **line);
-#endif
+void	ft_putnbr_fd(int nb, int fd)
+{
+	if (nb == -2147483648)
+	{
+		ft_putchar_fd('-', fd);
+		ft_putnbr_fd(214748364, fd);
+		ft_putchar_fd('8', fd);
+	}
+	else if (nb < 0)
+	{
+		ft_putchar_fd('-', fd);
+		ft_putnbr_fd(-nb, fd);
+	}
+	else if (nb >= 10)
+	{
+		ft_putnbr_fd(nb / 10, fd);
+		ft_putchar_fd(nb % 10 + '0', fd);
+	}
+	else
+		ft_putchar_fd(nb + '0', fd);
+}

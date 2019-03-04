@@ -1,27 +1,31 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   get_next_line.h                                    :+:      :+:    :+:   */
+/*   ft_strnew.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: pvalleci <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2019/01/11 16:37:59 by pvalleci          #+#    #+#             */
-/*   Updated: 2019/01/11 16:38:01 by pvalleci         ###   ########.fr       */
+/*   Created: 2019/03/04 14:41:29 by pvalleci          #+#    #+#             */
+/*   Updated: 2019/03/04 14:41:32 by pvalleci         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef GET_NEXT_LINE_H
+#include "libft.h"
+#include <stdlib.h>
 
-# define GET_NEXT_LINE_H
-# define BUFF_SIZE 1
-# include <unistd.h>
-# include <stdlib.h>
-# include <limits.h>
-# include <stdio.h>
-# include <fcntl.h>
-# include <sys/types.h>
-# include <sys/stat.h>
-# include "libft/libft.h"
+char	*ft_strnew(size_t size)
+{
+	char	*mem;
+	size_t	i;
 
-int				get_next_line(const int fd, char **line);
-#endif
+	i = 0;
+	if (!(mem = (char*)malloc(sizeof(*mem) * (size + 1))))
+		return (NULL);
+	while (i < size)
+	{
+		mem[i] = '\0';
+		i++;
+	}
+	mem[i] = '\0';
+	return (mem);
+}
