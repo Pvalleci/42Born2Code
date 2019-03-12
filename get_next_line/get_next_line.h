@@ -6,18 +6,17 @@
 /*   By: pvalleci <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/11 16:37:59 by pvalleci          #+#    #+#             */
-/*   Updated: 2019/01/11 16:38:01 by pvalleci         ###   ########.fr       */
+/*   Updated: 2019/03/08 11:29:12 by pvalleci         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef GET_NEXT_LINE_H
 
 # define GET_NEXT_LINE_H
-# define BUFF_SIZE 1
+# define BUFF_SIZE 10
 # include <unistd.h>
 # include <stdlib.h>
 # include <limits.h>
-# include <stdio.h>
 # include <fcntl.h>
 # include <sys/types.h>
 # include <sys/stat.h>

@@ -1,7 +1,7 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   get_next_line2.c                                   :+:      :+:    :+:   */
+/*   get_next_line.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: pvalleci <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
@@ -12,13 +12,15 @@
 
 #include "get_next_line.h"
 
-char		*ft_input_line(char **line, char *tab)
+static char		*ft_input_line(char **line, char *tab)
 {
 	int				i;
 	char			*tmp;
 
 	i = 0;
-	if (tab && ft_strchr(tab, '\n') != NULL)
+	if (tab != NULL && tab[0] == '\0')
+		ft_strdel(&tab);
+	else if (tab != NULL && ft_strchr(tab, '\n') != NULL)
 	{
 		while (tab[i] != '\n')
 			i++;
@@ -31,8 +33,8 @@ char		*ft_input_line(char **line, char *tab)
 	else if (tab != NULL && ft_strchr(tab, '\n') == NULL)
 	{
 		*line = ft_strdup(tab);
-		free(tab);
-		tab = NULL;
+		ft_strdel(&tab);
+		tab = ft_strnew(0);
 	}
 	return (tab);
 }
@@ -53,12 +55,10 @@ int			get_next_line(const int fd, char **line)
 		buf[lu] = '\0';
 		tmp = tb[fd];
 		tb[fd] = tb[fd] ? ft_strjoin(tb[fd], buf) : ft_strdup(buf);
-		free(tmp);
-		tmp = NULL;
+		ft_strdel(&tmp);
 	}
-	tmp = tb[fd];
 	tb[fd] = ft_input_line(line, tb[fd]);
-	if ((tb[fd] == NULL && tmp == NULL) || tmp[0] == '\0')
+	if (tb[fd] == NULL)
 	{
 		free(tb[fd]);
 		return (0);
