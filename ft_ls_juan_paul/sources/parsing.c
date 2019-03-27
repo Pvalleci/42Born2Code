@@ -114,10 +114,10 @@ char		**ft_valid_folders(char **folders, int i, int j)
 
 char		**ft_verif_folders(char **folders)
 {
-	int		i;
-	int		j;
-	char	**valid_folders;
-	DIR		*rep;
+	int				i;
+	int				j;
+	char			**valid_folders;
+	DIR				*rep;
 
 	i = 0;
 	j = 0;
@@ -127,6 +127,7 @@ char		**ft_verif_folders(char **folders)
 	{
 		if (!(rep = opendir(folders[i])))
 		{
+			///si c est un ifchier il faut afficher : ls: %s: Not a diretory dans le cas ou on aurait envoyer un fichier a la place d un dossier.
 			printf("ft_ls: %s: No such file or directory\n", folders[i]);
 			j++;
 		}

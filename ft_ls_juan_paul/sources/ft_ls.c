@@ -83,5 +83,7 @@ int		main(int ac, char **av)
 	if (path)
 		ft_free_tab(path);
 	free(option);
+	// while (1)
+	// 	;
 	return (1);
 }

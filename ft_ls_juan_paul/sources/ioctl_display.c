@@ -1,7 +1,7 @@
 
 #include "ft_ls.h"
 
-int			ft_get_len_max(char **tab)
+int			ft_get_len_max(char **tab)//a mettre ds tools
 {
 	int		i;
 	int		tmp;
@@ -28,22 +28,22 @@ int			ft_get_number_by_col(int nb_column, int nb_elem)
 	return (nb_elem_by_col);
 }
 
-char		*ft_get_buf(char *str, int len_max)
-{
-	int		i;
-	char	*ret;
-	i = 0;
-	ret = ft_strnew(len_max);
-	ft_strcpy(ret, str);
-	i = ft_strlen(str);
-	while (i < len_max)
-	{
-		ret[i] = ' ';
-		i++;
-	}
-	ret[i] = '\0';
-	return (ret);
-}
+// char		*ft_get_buf(char *str, int len_max)
+// {
+// 	int		i;
+// 	char	*ret;
+// 	i = 0;
+// 	ret = ft_strnew(len_max);
+// 	ft_strcpy(ret, str);
+// 	i = ft_strlen(str);
+// 	while (i < len_max)
+// 	{
+// 		ret[i] = ' ';
+// 		i++;
+// 	}
+// 	ret[i] = '\0';
+// 	return (ret);
+// }
 
 void		ft_buf_tab(char **tab, int len_max)
 {
@@ -62,6 +62,7 @@ void		ft_buf_tab(char **tab, int len_max)
 			tab[i][j] = tmp[j];
 			j++;
 		}
+		free(tmp);
 		while (j < len_max)
 		{
 			tab[i][j] = ' ';
@@ -71,10 +72,9 @@ void		ft_buf_tab(char **tab, int len_max)
 	}
 }
 
-char		**ft_tab_ioctl(char **tab, int nb_line)
+char		**ft_tab_ioctl(char **tab, int nb_line, int len_max, int nb_column)
 {
 	char		**tmp;
-	char		*temp;
 	int			i;
 	int			j;
 
@@ -85,21 +85,20 @@ char		**ft_tab_ioctl(char **tab, int nb_line)
 		return (NULL);
 	while (i < nb_line)
 	{
-		tmp[i] = ft_strnew(0);
+		tmp[i] = ft_strnew(len_max * nb_column);
 		i++;
 	}
 	i = 0;
 	while (tab[j])
 	{
-		temp = tmp[i];
-		tmp[i] = ft_strjoin(tmp[i], tab[j]);
-		ft_strdel(&temp);
+		tmp[i] = ft_strcat(tmp[i], tab[j]);
 		j++;
 		i++;
 		if ((i % nb_line) == 0)
 			i = 0;
 	}
 	tmp[nb_line] = NULL;
+	ft_free_tab(tab);
 	return (tmp);
 }
 
@@ -111,7 +110,7 @@ void		ft_display_ioctl(char *name, char **tab)
 	int					nb_column;
 	int					nb_elem_by_col;
 
-	(void)name;
+	(void)name;///////////////////////////////////////////besoin de name ?
 	len_max = 0;
 	ioctl(0, TIOCGSIZE, &ts);
 	len_max = ft_get_len_max(tab);
@@ -122,7 +121,7 @@ void		ft_display_ioctl(char *name, char **tab)
 	nb_elem_by_col = ft_get_number_by_col(nb_column, ft_len_tab(tab));
 	tmp_tab = ft_copy_tab(tab);
 	ft_buf_tab(tmp_tab, len_max);
-	tmp_tab = ft_tab_ioctl(tmp_tab, nb_elem_by_col);
+	tmp_tab = ft_tab_ioctl(tmp_tab, nb_elem_by_col, len_max, nb_column);
 	ft_print_table(tmp_tab);
 	ft_free_tab(tmp_tab);
 }
