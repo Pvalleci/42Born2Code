@@ -11,6 +11,7 @@ SRC			=	display\
 				recursive\
 				sort\
 				tools\
+				free_tools\
 
 LIBFT		=	libft/libft.a
 

@@ -28,6 +28,7 @@ char		*ft_pars_option(int argc, char **argv);
 char		**ft_get_intra_rep(char *rep);
 char		**ft_pars_folders(int argc, char **argv);
 char		**ft_verif_folders(char **folders);
+char		**ft_clean_tab(char **tab, char *option);
 t_list_ls	*ft_create_list(char **path);
 void		ft_sort_tab(char *option, char **tab);
 char		**ft_copy_tab(char **tab);
@@ -35,7 +36,9 @@ int			ft_len_tab(char **tab);
 void		ft_display(char **tab, char *option);
 void		ft_display_ioctl(char **tab, char *option);
 void		ft_ls(char **path, char *option);
-void		ft_recursive_ls(t_list_ls *list, char *option);
-void		ft_aff_tab(char **tab, char *option);
+void		ft_recursive_ls(char **path, char *option);
+void		ft_aff_tab(char **tab);
+void		ft_free_tab(char **tab);
+void		ft_free_list(t_list_ls *list);
 
 #endif

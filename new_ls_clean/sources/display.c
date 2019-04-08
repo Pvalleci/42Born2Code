@@ -110,16 +110,25 @@ void		ft_display_rep(char **file_tab, char **rep_tab, char *option)
 	if (file_tab == NULL && ft_len_tab(rep_tab) == 1)
 	{
 		tmp_tab = ft_get_intra_rep(rep_tab[i]);
-		ft_sort_tab(option, tmp_tab);		
-		ft_display_ioctl(tmp_tab, option);
+		if (!tmp_tab)
+			return;
+		else
+			ft_display_ioctl(tmp_tab, option);
 	}
 	else
 	{
 		while (rep_tab[i])
 		{
-			printf("%s:\n", rep_tab[i]);
+			if (i == 0)
+				printf("\n");
 			tmp_tab = ft_get_intra_rep(rep_tab[i]);
-			ft_display_ioctl(tmp_tab, option);
+			if (tmp_tab)
+			{	
+				printf("%s:\n", rep_tab[i]);
+				ft_display_ioctl(tmp_tab, option);
+			}
+			if (rep_tab[i + 1] != NULL)
+				ft_putchar('\n');
 			i++;
 		}
 	}
@@ -134,14 +143,15 @@ void		ft_display(char **tab, char *option)
 	rep_tab = ft_create_rep_tab(tab);
 	if (file_tab)
 	{
-		printf("file tab\n");
 		ft_sort_tab(option, file_tab);
 		ft_display_ioctl(file_tab, option);
 		ft_putendl("");
+		ft_free_tab(file_tab);
 	}
 	if (rep_tab)
 	{
 		ft_display_rep(file_tab, rep_tab, option);
+		ft_free_tab(rep_tab);
 	}
 	//ioctl sur file tab;
 	//afficher rep_tab[n] puis son contenu en ioctl

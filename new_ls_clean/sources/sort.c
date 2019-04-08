@@ -53,12 +53,9 @@ static void			ft_rev_tab(char **tab)
 
 void			ft_sort_tab(char *option, char **tab)
 {
-	printf("sort tab\n");
-	ft_sort_by_ascii(tab);
+	ft_sort_by_ascii(tab);	
 	// if (ft_strchr(option, 't') != NULL)
 	// 	ft_sort_by_modif_time(tab, path);
 	if (ft_strchr(option, 'r') != NULL)
 		ft_rev_tab(tab);
-	else
-		printf("pas d option 'r' \n");
 }

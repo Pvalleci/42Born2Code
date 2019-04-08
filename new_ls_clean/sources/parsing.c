@@ -134,5 +134,6 @@ char		**ft_verif_folders(char **folders)
 		i++;
 	}
 	valid_folders = ft_valid_folders(folders, i, j);
+	ft_free_tab(folders);
 	return (valid_folders);
 }

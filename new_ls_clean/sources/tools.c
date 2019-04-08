@@ -2,24 +2,51 @@
 #include "ft_ls.h"
 
 
-void			ft_aff_tab(char **tab, char *option)
+char			**ft_clean_tab(char **tab, char *option)
 {
-	int		a;
+	char	**tmp_tab;
 	int		i;
+	int		len;
 
-	a = 0;
 	i = 0;
-	if (ft_strchr(option, 'a'))
-		a = 1;
+	len = 0;
+	if (ft_strchr(option, 'a') != NULL)
+		return (tab);
 	while (tab[i])
 	{
-		if (a == 0 && tab[i][0] == '.')
+		if (tab[i][0] != '.')
+			len++;
+		i++;
+	}
+	if (!(tmp_tab = (char **)malloc(sizeof(char *) * (len + 1))))
+		return (NULL);
+	len = 0;
+	i = 0;
+	while (tab[i])
+	{
+		if (tab[i][0] == '.')
 			i++;
 		else
 		{
-			ft_putendl(tab[i]);
+			tmp_tab[len] = ft_strdup(tab[i]);
+			len++;
 			i++;
 		}
+	}
+	tmp_tab[len] = NULL;
+	ft_free_tab(tab);
+	return (tmp_tab);
+}
+
+void			ft_aff_tab(char **tab)
+{
+	int		i;
+
+	i = 0;
+	while (tab[i])
+	{
+		ft_putendl(tab[i]);
+		i++;
 	}
 }
 

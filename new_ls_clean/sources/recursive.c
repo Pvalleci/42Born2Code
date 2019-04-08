@@ -12,7 +12,7 @@ char		*ft_get_clan_path(char *name, char *rdir_name)
 		str = ft_strjoin(name, "/");
 	}
 	tmp = str;
-	str = ft_strjoin(name, rdir_name);
+	str = ft_strjoin(str, rdir_name);
 	if (tmp)
 		free(tmp);
 	return (str);
@@ -29,7 +29,10 @@ char		**ft_path_tab(t_list_ls *list)
 	if (!(opdir = opendir(list->name)))
 		return (NULL);
 	while ((rdir = readdir(opdir)) != NULL)
-		i++;
+	{
+		if (rdir->d_type == DT_DIR)
+			i++;
+	}
 	closedir(opdir);
 	if (!(tab = (char **)malloc(sizeof(char *) * (i + 1))))
 		return (NULL);
@@ -38,26 +41,34 @@ char		**ft_path_tab(t_list_ls *list)
 		return (NULL);
 	while ((rdir = readdir(opdir)) != NULL)
 	{
-		tab[i] = ft_get_clan_path(list->name, rdir->d_name);
-		i++;
+		if (rdir->d_type == DT_DIR)
+		{
+			tab[i] = ft_get_clan_path(list->name, rdir->d_name);
+			i++;
+		}
 	}
 	tab[i] = NULL;
 	closedir(opdir);
 	return (tab);
 }
 
-
-void		ft_recursive_ls(t_list_ls *list, char *option)
+void		ft_recursive_ls(char **path, char *option)
 {
-	//1- Ouvrir list->name
-	//2- Creer un tableau contenant les element dans chaque rep
-	//rappel de ls avec nouveau taleau et opiton
-	char			**tmp_tab;
+	t_list_ls 			*list;
+	char				**in_path;
 
+	list = ft_create_list(path);
 	while (list != NULL)
 	{
-		tmp_tab = ft_path_tab(list);//pb de join a priori
-		ft_ls(tmp_tab + 2, option);// + 2 pour passer . et ..
-		list = list->next;
+		in_path = ft_path_tab(list);
+		if (in_path == NULL)
+			list = list->next;
+		else
+		{
+			ft_ls(in_path + 2, option);
+			ft_free_tab(in_path);
+			list = list->next;
+		}
 	}
+	ft_free_list(list);
 }

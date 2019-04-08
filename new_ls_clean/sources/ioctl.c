@@ -81,8 +81,24 @@ char		**ft_tab_ioctl(char **tab, int nb_line, int len_max, int nb_column)
 			i = 0;
 	}
 	tmp[nb_line] = NULL;
-	// ft_free_tab(tab);
+	ft_free_tab(tab);
 	return (tmp);
+}
+
+void		ft_put_end(char **tab)
+{
+	int		i;
+	int		j;
+
+	i = 0;
+	while (tab[i])
+	{
+		j = ft_strlen(tab[i]);
+		while (tab[i][j - 1] == ' ')
+			j--;
+		tab[i][j] = '\0';
+		i++;
+	}
 }
 
 void		ft_display_ioctl(char **tab, char *option)
@@ -95,6 +111,7 @@ void		ft_display_ioctl(char **tab, char *option)
 
 	len_max = 0;
 	ioctl(0, TIOCGSIZE, &ts);
+	tab = ft_clean_tab(tab, option);
 	len_max = ft_get_len_max(tab);
 	if (len_max == 0)
 		return ;
@@ -104,6 +121,8 @@ void		ft_display_ioctl(char **tab, char *option)
 	tmp_tab = ft_copy_tab(tab);
 	ft_buf_tab(tmp_tab, len_max);
 	tmp_tab = ft_tab_ioctl(tmp_tab, nb_elem_by_col, len_max, nb_column);
-	ft_aff_tab(tmp_tab, option);
-	// ft_free_tab(tmp_tab);
+	ft_put_end(tmp_tab);
+	ft_aff_tab(tmp_tab);
+	ft_free_tab(tmp_tab);
+	ft_free_tab(tab);
 }
