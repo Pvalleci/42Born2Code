@@ -13,6 +13,7 @@ void	ft_free_tab(char **tab)
 	}
 	free(tab[i]);
 	free(tab);
+	tab = NULL;
 }
 
 void	ft_free_list(t_list_ls *list)
@@ -26,4 +27,5 @@ void	ft_free_list(t_list_ls *list)
 		free(list);
 		list = tmp;
 	}
+	list = NULL;
 }

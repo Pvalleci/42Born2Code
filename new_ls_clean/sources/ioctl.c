@@ -22,6 +22,8 @@ int			ft_get_number_by_col(int nb_column, int nb_elem)
 {
 	int nb_elem_by_col;
 
+	if (nb_column == 0)
+		return (1);
 	nb_elem_by_col = nb_elem / nb_column;
 	while ((nb_elem_by_col * nb_column) < nb_elem)
 		nb_elem_by_col++;
@@ -64,7 +66,7 @@ char		**ft_tab_ioctl(char **tab, int nb_line, int len_max, int nb_column)
 	i = 0;
 	j = 0;
 	tmp = NULL;
-	if (!(tmp = (char **)malloc(sizeof(char *) * nb_line + 1)))
+	if (!(tmp = (char **)malloc(sizeof(char *) * (nb_line + 1))))
 		return (NULL);
 	while (i < nb_line)
 	{
@@ -90,12 +92,15 @@ void		ft_put_end(char **tab)
 	int		i;
 	int		j;
 
-	i = 0;
+	i = 0;	
 	while (tab[i])
 	{
 		j = ft_strlen(tab[i]);
-		while (tab[i][j - 1] == ' ')
+		j--;
+		while (tab[i][j] == ' ')
+		{		
 			j--;
+		}
 		tab[i][j] = '\0';
 		i++;
 	}
@@ -124,5 +129,4 @@ void		ft_display_ioctl(char **tab, char *option)
 	ft_put_end(tmp_tab);
 	ft_aff_tab(tmp_tab);
 	ft_free_tab(tmp_tab);
-	ft_free_tab(tab);
 }

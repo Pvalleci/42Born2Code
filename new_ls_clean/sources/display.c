@@ -146,12 +146,13 @@ void		ft_display(char **tab, char *option)
 		ft_sort_tab(option, file_tab);
 		ft_display_ioctl(file_tab, option);
 		ft_putendl("");
-		ft_free_tab(file_tab);
 	}
 	if (rep_tab)
 	{
 		ft_display_rep(file_tab, rep_tab, option);
 		ft_free_tab(rep_tab);
+		if (file_tab)
+			ft_free_tab(file_tab);
 	}
 	//ioctl sur file tab;
 	//afficher rep_tab[n] puis son contenu en ioctl

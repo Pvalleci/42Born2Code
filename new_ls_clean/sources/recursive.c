@@ -7,6 +7,7 @@ char		*ft_get_clan_path(char *name, char *rdir_name)
 	char	*tmp;
 
 	str = NULL;
+	//si j ai / return / ---------a faire
 	if (name[ft_strlen(name)] != '/')
 	{
 		str = ft_strjoin(name, "/");
@@ -34,6 +35,8 @@ char		**ft_path_tab(t_list_ls *list)
 			i++;
 	}
 	closedir(opdir);
+	if (i == 0)
+		return (NULL);
 	if (!(tab = (char **)malloc(sizeof(char *) * (i + 1))))
 		return (NULL);
 	i = 0;
@@ -55,9 +58,15 @@ char		**ft_path_tab(t_list_ls *list)
 void		ft_recursive_ls(char **path, char *option)
 {
 	t_list_ls 			*list;
+	t_list_ls			*start;
 	char				**in_path;
 
+	list = NULL;
+	in_path = NULL;
 	list = ft_create_list(path);
+	if (!list)
+		return ;
+	start = list;
 	while (list != NULL)
 	{
 		in_path = ft_path_tab(list);
@@ -70,5 +79,5 @@ void		ft_recursive_ls(char **path, char *option)
 			list = list->next;
 		}
 	}
-	ft_free_list(list);
+	ft_free_list(start);
 }

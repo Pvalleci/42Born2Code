@@ -39,7 +39,5 @@ int		main(int ac, char **av)
 		ft_ls(path, option);
 	ft_free_tab(path);
 	free(option);
-	while (1)
-		;
 	return 1;
 }

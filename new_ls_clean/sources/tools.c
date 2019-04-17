@@ -51,14 +51,14 @@ void			ft_aff_tab(char **tab)
 }
 
 
-int				ft_len_tab(char **tab)
+int				ft_len_tab(char **tab)//dans certains cas il y a unprobleme avecceque recoit la fonction...
 {
 	int		i;
 
 	i = 0;
 	if (!tab)
 		return (-1);
-	while (tab[i])
+	while (tab[i] != NULL)
 		i++;
 	return (i);
 
@@ -70,7 +70,9 @@ char				**ft_copy_tab(char **tab)
 	int				i;
 
 	i = 0;
-	if (!(tmp_tab = (char **)malloc(sizeof(char *) * ft_len_tab(tab) + 1)))
+	if (!tab)
+		return (NULL);
+	if (!(tmp_tab = (char **)malloc(sizeof(char *) * (ft_len_tab(tab) + 1))))
 		return (NULL);
 	while (tab[i])
 	{
