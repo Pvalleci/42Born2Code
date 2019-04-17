@@ -57,27 +57,42 @@ char		**ft_path_tab(t_list_ls *list)
 
 void		ft_recursive_ls(char **path, char *option)
 {
-	t_list_ls 			*list;
-	t_list_ls			*start;
+	// t_list_ls 			*list;
+	// t_list_ls			*start;
 	char				**in_path;
+	int i;
 
-	list = NULL;
-	in_path = NULL;
-	list = ft_create_list(path);
-	if (!list)
-		return ;
-	start = list;
-	while (list != NULL)
+	i = 0;
+	printf("tmp_tab	de ft_recursive_ls\n");
+	printf("-----------------------------\n");
+	ft_print_table(path);
+	printf("-----------------------------\n");
+	// list = NULL;
+	// in_path = NULL;
+	// list = ft_create_list(path);
+	// if (!list)
+	// {
+	// 	printf("list NULL\n");
+	// 	return ;
+	// }
+	// start = list;
+	while (path[i])
 	{
-		in_path = ft_path_tab(list);
-		if (in_path == NULL)
-			list = list->next;
-		else
-		{
-			ft_ls(in_path + 2, option);
-			ft_free_tab(in_path);
-			list = list->next;
-		}
+		printf("%s:\n", path[i]);
+		in_path = ft_get_intra_rep(path[i]);
+		ft_ls(in_path + 2, option, 0);
+		ft_free_tab(in_path);
+		i++;
+		// in_path = ft_path_tab(list);
+		// if (in_path == NULL)
+		// 	list = list->next;
+		// else
+		// {
+			
+		// 	ft_ls(in_path + 2, option, 0);
+		// 	ft_free_tab(in_path);
+		// 	list = list->next;
+		// }
 	}
-	ft_free_list(start);
+	// ft_free_list(start);
 }

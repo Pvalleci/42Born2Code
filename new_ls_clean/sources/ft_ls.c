@@ -13,30 +13,29 @@ char		**ft_create_path(void)
 	return (path);
 }
 
-void		ft_ls(char **path, char *option)
+void		ft_ls(char **path, char *option, int i)
 {
 	ft_sort_tab(option, path);
-	ft_display(path, option);
-	if (ft_strchr(option, 'R') != NULL)
-	{
-		ft_recursive_ls(path, option);
-		// ft_free_tab(path); pb avec ce free je sais paspourquoi...
-	}
+	ft_display(path, option, i);
+
 }
 
 int		main(int ac, char **av)
 {
 	char		*option;
 	char		**path;
+	int			i;
 
 	option = ft_pars_option(ac, av);
 	ft_verif_option(option);
 	path = ft_pars_folders(ac, av);
+	i = ft_len_tab(path);
+	ft_sort_tab(NULL, path);
 	path = ft_verif_folders(path);
 	if (!path)
 		path = ft_create_path();
 	if (path)
-		ft_ls(path, option);
+		ft_ls(path, option, i);
 	ft_free_tab(path);
 	free(option);
 	return 1;

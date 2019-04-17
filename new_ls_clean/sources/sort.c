@@ -56,6 +56,6 @@ void			ft_sort_tab(char *option, char **tab)
 	ft_sort_by_ascii(tab);
 	// if (ft_strchr(option, 't') != NULL)
 	// 	ft_sort_by_modif_time(tab, path);
-	if (ft_strchr(option, 'r') != NULL)
+	if (option && ft_strchr(option, 'r') != NULL)
 		ft_rev_tab(tab);
 }

@@ -101,6 +101,7 @@ void		ft_put_end(char **tab)
 		{		
 			j--;
 		}
+		j++;
 		tab[i][j] = '\0';
 		i++;
 	}
@@ -121,6 +122,8 @@ void		ft_display_ioctl(char **tab, char *option)
 	if (len_max == 0)
 		return ;
 	nb_column = ts.ts_cols / len_max;
+	if (nb_column == 0)
+		nb_column++;
 	len_max++;
 	nb_elem_by_col = ft_get_number_by_col(nb_column, ft_len_tab(tab));
 	tmp_tab = ft_copy_tab(tab);

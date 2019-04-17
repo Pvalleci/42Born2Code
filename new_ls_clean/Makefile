@@ -12,6 +12,7 @@ SRC			=	display\
 				sort\
 				tools\
 				free_tools\
+				tools_2\
 
 LIBFT		=	libft/libft.a
 
@@ -28,7 +29,7 @@ all : $(NAME)
 $(NAME) :
 	make -C $(LIBMAKE)
 	gcc $(FLAGS) -c $(SRCS) -I $(INCLUDES)
-	gcc $(FLAGS) -o $(NAME) $(LIBFT) $(SRCS) -I $(INCLUDES) -fsanitize=address
+	gcc $(FLAGS) -o $(NAME) $(LIBFT) $(SRCS) -I $(INCLUDES)
 
 clean :
 	make -C $(LIBMAKE) clean
