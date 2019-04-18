@@ -74,9 +74,8 @@ void		ft_recursive_ls(char *name, char **path, char *option)
 			path[i] = ft_get_clan_path(name, path[i]);
 			if (stat(path[i], &buf) == 0 && S_ISDIR(buf.st_mode))
 			{
-
+					write(1, "\n", 1);				
 					printf("%s:\n", path[i]);
-
 					tmp_tab = malloc(sizeof(char *) * 2);
 					tmp_tab[0] = ft_strdup(path[i]);
 					tmp_tab[1] = NULL;

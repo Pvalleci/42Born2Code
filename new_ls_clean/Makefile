@@ -29,7 +29,7 @@ all : $(NAME)
 $(NAME) :
 	make -C $(LIBMAKE)
 	gcc $(FLAGS) -c $(SRCS) -I $(INCLUDES)
-	gcc $(FLAGS) -o $(NAME) $(LIBFT) $(SRCS) -I $(INCLUDES) -g3 -fsanitize=address
+	gcc $(FLAGS) -o $(NAME) $(LIBFT) $(SRCS) -I $(INCLUDES)
 
 clean :
 	make -C $(LIBMAKE) clean

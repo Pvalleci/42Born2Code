@@ -108,10 +108,9 @@ void		ft_display_rep(char **rep_tab, char *option, int j)
 	struct stat buf;
 	
 	i = 0;
-	j = 0;
 	while (rep_tab[i])
 	{
-		if (ft_len_tab(rep_tab) > 1)
+		if (j > 1)
 			printf("%s:\n", rep_tab[i]);
 		if (stat(rep_tab[i], &buf) == 0 && S_ISDIR(buf.st_mode))
 			tmp_tab = ft_get_intra_rep(rep_tab[i]);
@@ -120,11 +119,13 @@ void		ft_display_rep(char **rep_tab, char *option, int j)
 			ft_display_ioctl(tmp_tab, option);
 			if (ft_strchr(option, 'R') != NULL)
 			{
+
 				ft_recursive_ls(rep_tab[i], tmp_tab, option);
 			}
-printf("\n");
 		}
 		i++;
+		if (rep_tab[i])
+			write(1, "\n", 1);
 	}
 
 }
@@ -136,8 +137,6 @@ void		ft_display(char **tab, char *option, int i)
 
 	file_tab = ft_create_file_tab(tab);
 	rep_tab = ft_create_rep_tab(tab);
-	i = 0;
-
 	if (ft_len_tab(tab) == 1 && ft_strchr(option, 'R') == NULL)
 	{
 		file_tab = ft_get_intra_rep(tab[0]);
@@ -148,8 +147,9 @@ void		ft_display(char **tab, char *option, int i)
 		if (file_tab)
 		{
 			ft_display_ioctl(file_tab, option);
+			write(1, "\n", 1);
 		}
 		ft_sort_tab(option, rep_tab);
-		ft_display_rep(rep_tab, option, 0);
+		ft_display_rep(rep_tab, option, i);
 	}
 }

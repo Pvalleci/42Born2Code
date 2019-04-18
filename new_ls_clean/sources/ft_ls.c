@@ -37,7 +37,7 @@ int		main(int ac, char **av)
 	if (path)
 	{
 		ft_ls(path, option, i);
-		// ft_free_tab(path);
+		ft_free_tab(path);
 	}
 	free(option);
 	return 1;
