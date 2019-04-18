@@ -80,11 +80,7 @@ char		**ft_get_intra_rep(char *rep)
 	struct dirent	*rdir;
 	int 			len;
 
-	len = 0;
-	printf("rep dans ft_get_intra_rep\n");
-	printf("-----------------------------\n");
-	printf("%s\n", rep);
-	printf("-----------------------------\n");	
+	len = 0;	
 	if (!(opdir = opendir((const char *)rep)))
 		return (NULL);
 	while ((rdir = readdir(opdir)) != NULL)
@@ -105,62 +101,32 @@ char		**ft_get_intra_rep(char *rep)
 	return (intra_rep);
 }
 
-void		ft_display_rep(char **file_tab, char **rep_tab, char *option, int j)
+void		ft_display_rep(char **rep_tab, char *option, int j)
 {
 	int		i;
 	char	**tmp_tab;
+	struct stat buf;
 	
 	i = 0;
-
-	(void)file_tab;
 	j = 0;
 	while (rep_tab[i])
 	{
-		printf("%s:\n", rep_tab[i]);
-		tmp_tab = ft_get_intra_rep(rep_tab[i]);
+		if (ft_len_tab(rep_tab) > 1)
+			printf("%s:\n", rep_tab[i]);
+		if (stat(rep_tab[i], &buf) == 0 && S_ISDIR(buf.st_mode))
+			tmp_tab = ft_get_intra_rep(rep_tab[i]);
 		if (tmp_tab)
 		{
 			ft_display_ioctl(tmp_tab, option);
 			if (ft_strchr(option, 'R') != NULL)
 			{
-				printf("ft_recursive_ls\n");
-				ft_recursive_ls(tmp_tab, option);
+				ft_recursive_ls(rep_tab[i], tmp_tab, option);
 			}
-			i++;
-
-				printf("\n");
+printf("\n");
 		}
-		else
-			i++;
+		i++;
 	}
-	// char		**tmp_tab;
-	// int			i;
 
-	// i = 0;
-	// if (file_tab == NULL && ft_len_tab(rep_tab) == 1 && j == 1)
-	// {
-	// 	tmp_tab = ft_get_intra_rep(rep_tab[i]);
-	// 	if (!tmp_tab)
-	// 		return;
-	// 	else
-	// 		ft_display_ioctl(tmp_tab, option);
-	// }
-	// else
-	// {
-	// 	while (rep_tab[i])
-	// 	{
-	// 		if (i == 0 && ft_strchr(option, 'R') != NULL) // ne pas afficher pour le 1er apel
-	// 			printf("\n");
-	// 		tmp_tab = ft_get_intra_rep(rep_tab[i]);
-	// 		if (tmp_tab)
-	// 		{	
-	// 			printf("%s:\n", rep_tab[i]);
-	// 			ft_display_ioctl(tmp_tab, option);
-	// 		}
-	// 		if (rep_tab[i + 1] != NULL)
-	// 			ft_putchar('\n');
-	// 		i++;
-	// 	}
 }
 
 void		ft_display(char **tab, char *option, int i)
@@ -170,17 +136,20 @@ void		ft_display(char **tab, char *option, int i)
 
 	file_tab = ft_create_file_tab(tab);
 	rep_tab = ft_create_rep_tab(tab);
-	if (file_tab)
+	i = 0;
+
+	if (ft_len_tab(tab) == 1 && ft_strchr(option, 'R') == NULL)
 	{
-		ft_sort_tab(option, file_tab);
+		file_tab = ft_get_intra_rep(tab[0]);
 		ft_display_ioctl(file_tab, option);
-		ft_putendl("");
 	}
-	if (rep_tab)
+	else if (rep_tab)
 	{
-		ft_display_rep(file_tab, rep_tab, option, i);
-		ft_free_tab(rep_tab);
 		if (file_tab)
-			ft_free_tab(file_tab);
+		{
+			ft_display_ioctl(file_tab, option);
+		}
+		ft_sort_tab(option, rep_tab);
+		ft_display_rep(rep_tab, option, 0);
 	}
 }

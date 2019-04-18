@@ -92,8 +92,8 @@ void		ft_put_end(char **tab)
 	int		i;
 	int		j;
 
-	i = 0;	
-	while (tab[i])
+	i = 0;
+	while (tab[i] && tab[i][0] != '\0')
 	{
 		j = ft_strlen(tab[i]);
 		j--;
@@ -117,8 +117,9 @@ void		ft_display_ioctl(char **tab, char *option)
 
 	len_max = 0;
 	ioctl(0, TIOCGSIZE, &ts);
-	tab = ft_clean_tab(tab, option);
-	len_max = ft_get_len_max(tab);
+	tmp_tab = ft_copy_tab(tab);	
+	tmp_tab = ft_clean_tab(tmp_tab, option);
+	len_max = ft_get_len_max(tmp_tab);
 	if (len_max == 0)
 		return ;
 	nb_column = ts.ts_cols / len_max;
@@ -126,7 +127,6 @@ void		ft_display_ioctl(char **tab, char *option)
 		nb_column++;
 	len_max++;
 	nb_elem_by_col = ft_get_number_by_col(nb_column, ft_len_tab(tab));
-	tmp_tab = ft_copy_tab(tab);
 	ft_buf_tab(tmp_tab, len_max);
 	tmp_tab = ft_tab_ioctl(tmp_tab, nb_elem_by_col, len_max, nb_column);
 	ft_put_end(tmp_tab);

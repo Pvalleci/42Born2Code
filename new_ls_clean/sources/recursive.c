@@ -7,8 +7,7 @@ char		*ft_get_clan_path(char *name, char *rdir_name)
 	char	*tmp;
 
 	str = NULL;
-	//si j ai / return / ---------a faire
-	if (name[ft_strlen(name)] != '/')
+	if (name[ft_strlen(name)] != '/' && rdir_name[0] != '/')
 	{
 		str = ft_strjoin(name, "/");
 	}
@@ -55,44 +54,36 @@ char		**ft_path_tab(t_list_ls *list)
 	return (tab);
 }
 
-void		ft_recursive_ls(char **path, char *option)
+void		ft_recursive_ls(char *name, char **path, char *option)
 {
-	// t_list_ls 			*list;
-	// t_list_ls			*start;
-	char				**in_path;
-	int i;
+	int 				i;
+	struct stat			buf;
+	char				**tmp_tab;
 
 	i = 0;
-	printf("tmp_tab	de ft_recursive_ls\n");
-	printf("-----------------------------\n");
-	ft_print_table(path);
-	printf("-----------------------------\n");
-	// list = NULL;
-	// in_path = NULL;
-	// list = ft_create_list(path);
-	// if (!list)
-	// {
-	// 	printf("list NULL\n");
-	// 	return ;
-	// }
-	// start = list;
+	while (path[i] != NULL && path[i][0] == '.' && (path[i][1] == '\0' || path[i][1] == '.'))
+		i++;
+	if (path[i] == NULL)
+		return ;
 	while (path[i])
 	{
-		printf("%s:\n", path[i]);
-		in_path = ft_get_intra_rep(path[i]);
-		ft_ls(in_path + 2, option, 0);
-		ft_free_tab(in_path);
-		i++;
-		// in_path = ft_path_tab(list);
-		// if (in_path == NULL)
-		// 	list = list->next;
-		// else
-		// {
-			
-		// 	ft_ls(in_path + 2, option, 0);
-		// 	ft_free_tab(in_path);
-		// 	list = list->next;
-		// }
+		if (path[i][0] == '.' && ft_strchr(option, 'a') == NULL)
+			i++;
+		else 
+		{
+			path[i] = ft_get_clan_path(name, path[i]);
+			if (stat(path[i], &buf) == 0 && S_ISDIR(buf.st_mode))
+			{
+
+					printf("%s:\n", path[i]);
+
+					tmp_tab = malloc(sizeof(char *) * 2);
+					tmp_tab[0] = ft_strdup(path[i]);
+					tmp_tab[1] = NULL;
+					ft_ls(tmp_tab, option, 0);
+			 		ft_free_tab(tmp_tab);
+			}
+			i++;
+		}
 	}
-	// ft_free_list(start);
 }

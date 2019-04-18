@@ -17,7 +17,6 @@ void		ft_ls(char **path, char *option, int i)
 {
 	ft_sort_tab(option, path);
 	ft_display(path, option, i);
-
 }
 
 int		main(int ac, char **av)
@@ -32,11 +31,14 @@ int		main(int ac, char **av)
 	i = ft_len_tab(path);
 	ft_sort_tab(NULL, path);
 	path = ft_verif_folders(path);
+
 	if (!path)
 		path = ft_create_path();
 	if (path)
+	{
 		ft_ls(path, option, i);
-	ft_free_tab(path);
+		// ft_free_tab(path);
+	}
 	free(option);
 	return 1;
 }
