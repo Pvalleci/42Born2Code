@@ -137,6 +137,8 @@ void		ft_display(char **tab, char *option, int i)
 
 	file_tab = ft_create_file_tab(tab);
 	rep_tab = ft_create_rep_tab(tab);
+	// if (ft_strchr(option, 'l') != NULL)
+	// 	return (ft_display_right);
 	if (ft_len_tab(tab) == 1 && ft_strchr(option, 'R') == NULL && !file_tab)
 	{
 		file_tab = ft_get_intra_rep(tab[0]);
