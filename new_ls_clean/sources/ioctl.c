@@ -107,7 +107,25 @@ void		ft_put_end(char **tab)
 	}
 }
 
-void		ft_display_ioctl(char **tab, char *option)
+void		ft_display_all(char **tab1, char **tab, char *option)
+{
+	//Faire Ce Qui Faut Ici.
+	//tab1[0] ( !! Y a un zero c pas pour rien !! ) contient le path pour tes appels a stat etc.. exmple : "../toto/nom". 
+	//tu join tab1[0] avec tab[i] et t as de quoi faire stat().
+	//dans tab il y tout sur quoi tu dois faire un -l. C est le contenu du repertoire. 
+	//pas besoin de t occuper du nom de repertoires c est deja gerer
+	//je te laisse les lignes pour que tu test
+	printf("ft_display_all----------------\n");
+	printf("Repertoires: -----------------\n");
+	ft_print_table(tab1);
+	printf("-------------------------------\n");
+	printf("ce sur quoi il faut faire -l : \n");
+	ft_print_table(tab);
+	printf("-------------------------------\n");
+	(void)option;
+}
+
+void		ft_display_ioctl(char **tab1, char **tab, char *option)
 {
 	struct ttysize		ts;
 	char				**tmp_tab;
@@ -115,6 +133,8 @@ void		ft_display_ioctl(char **tab, char *option)
 	int					nb_column;
 	int					nb_elem_by_col;
 
+	if (ft_strchr(option, 'l') != NULL)
+		return (ft_display_all(tab1, tab, option));
 	len_max = 0;
 	ioctl(0, TIOCGSIZE, &ts);
 	tmp_tab = ft_copy_tab(tab);	
@@ -122,6 +142,7 @@ void		ft_display_ioctl(char **tab, char *option)
 	len_max = ft_get_len_max(tmp_tab);
 	if (len_max == 0)
 		return ;
+
 	nb_column = ts.ts_cols / len_max;
 	if (nb_column == 0)
 		nb_column++;
@@ -130,6 +151,25 @@ void		ft_display_ioctl(char **tab, char *option)
 	ft_buf_tab(tmp_tab, len_max);
 	tmp_tab = ft_tab_ioctl(tmp_tab, nb_elem_by_col, len_max, nb_column);
 	ft_put_end(tmp_tab);
+	if (ft_get_len_max(tmp_tab) >= ts.ts_cols)
+	{
+		nb_column--;
+		ft_free_tab(tmp_tab);
+		len_max = 0;
+		ioctl(0, TIOCGSIZE, &ts);
+		tmp_tab = ft_copy_tab(tab);	
+		tmp_tab = ft_clean_tab(tmp_tab, option);
+		len_max = ft_get_len_max(tmp_tab);
+		if (len_max == 0)
+			return ;
+		if (nb_column == 0)
+			nb_column++;
+		len_max++;
+		nb_elem_by_col = ft_get_number_by_col(nb_column, ft_len_tab(tab));
+		ft_buf_tab(tmp_tab, len_max);
+		tmp_tab = ft_tab_ioctl(tmp_tab, nb_elem_by_col, len_max, nb_column);
+		ft_put_end(tmp_tab);		
+	}
 	ft_aff_tab(tmp_tab);
 	ft_free_tab(tmp_tab);
 }

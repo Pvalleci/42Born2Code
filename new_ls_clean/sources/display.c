@@ -101,7 +101,7 @@ char		**ft_get_intra_rep(char *rep)
 	return (intra_rep);
 }
 
-void		ft_display_rep(char **rep_tab, char *option, int j)
+void		ft_display_rep(char **tab, char **rep_tab, char *option, int j)
 {
 	int		i;
 	char	**tmp_tab;
@@ -116,7 +116,7 @@ void		ft_display_rep(char **rep_tab, char *option, int j)
 			tmp_tab = ft_get_intra_rep(rep_tab[i]);
 		if (tmp_tab)
 		{
-			ft_display_ioctl(tmp_tab, option);
+			ft_display_ioctl(tab, tmp_tab, option);
 			if (ft_strchr(option, 'R') != NULL)
 			{
 
@@ -138,26 +138,27 @@ void		ft_display(char **tab, char *option, int i)
 	file_tab = ft_create_file_tab(tab);
 	rep_tab = ft_create_rep_tab(tab);
 	// if (ft_strchr(option, 'l') != NULL)
-	// 	return (ft_display_right);
+	// 	return (ft_display_right(tab, option, i)); ----------- Va Appel Fonction Pour "-l"''
 	if (ft_len_tab(tab) == 1 && ft_strchr(option, 'R') == NULL && !file_tab)
 	{
 		file_tab = ft_get_intra_rep(tab[0]);
-		ft_display_ioctl(file_tab, option);
+		ft_display_ioctl(tab, file_tab, option);
 		ft_free_tab(file_tab);
 	}
 	else if (file_tab && !rep_tab)
 	{
-		ft_display_ioctl(file_tab, option);
+		ft_display_ioctl(tab, file_tab, option);
 		ft_free_tab(file_tab);
 	}
 	else if (rep_tab)
 	{
 		if (file_tab)
 		{
-			ft_display_ioctl(file_tab, option);
+			ft_display_ioctl(tab, file_tab, option);
+			ft_free_tab(file_tab);
 			write(1, "\n", 1);
 		}
 		ft_sort_tab(option, rep_tab);
-		ft_display_rep(rep_tab, option, i);
+		ft_display_rep(tab, rep_tab, option, i);
 	}
 }

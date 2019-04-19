@@ -36,7 +36,7 @@ char		**ft_create_rep_tab(char **tab);
 int			ft_len_tab(char **tab);
 int			ft_is_not_directory(char *str);
 void		ft_display(char **tab, char *option, int i);
-void		ft_display_ioctl(char **tab, char *option);
+void		ft_display_ioctl(char **t, char **tab, char *option);
 void		ft_ls(char **path, char *option, int i);
 void		ft_recursive_ls(char *name, char **path, char *option);
 void		ft_aff_tab(char **tab);
