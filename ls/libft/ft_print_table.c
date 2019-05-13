@@ -18,6 +18,8 @@ void	ft_print_table(char **tab)
 	int j;
 
 	i = 0;
+	if (!tab)
+		return ;
 	while (tab[i])
 	{
 		j = 0;
@@ -26,7 +28,7 @@ void	ft_print_table(char **tab)
 			ft_putchar(tab[i][j]);
 			j++;
 		}
-		ft_putchar('\n');
+			ft_putchar('\n');
 		i++;
 	}
 }
