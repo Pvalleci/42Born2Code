@@ -1,0 +1,3 @@
+En session graphique ou au lancement de la machine ou on se deconnecte de l'utilisateur actuel et on se connecte sur le nouvel utilisateur
+
+En session ssh on utilise la commande "su {nom de l'utilisateur}"

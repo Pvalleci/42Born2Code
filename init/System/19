@@ -1,0 +1,76 @@
+  PID TTY      STAT   TIME COMMAND
+    1 ?        Ss     0:00 /sbin/init
+    2 ?        S      0:00 [kthreadd]
+    3 ?        S      0:00 [ksoftirqd/0]
+    5 ?        S<     0:00 [kworker/0:0H]
+    6 ?        S      0:00 [kworker/u4:0]
+    7 ?        S      0:00 [rcu_sched]
+    8 ?        S      0:00 [rcu_bh]
+    9 ?        S      0:00 [migration/0]
+   10 ?        S<     0:00 [lru-add-drain]
+   11 ?        S      0:00 [watchdog/0]
+   12 ?        S      0:00 [cpuhp/0]
+   13 ?        S      0:00 [cpuhp/1]
+   14 ?        S      0:00 [watchdog/1]
+   15 ?        S      0:00 [migration/1]
+   16 ?        S      0:00 [ksoftirqd/1]
+   18 ?        S<     0:00 [kworker/1:0H]
+   19 ?        S      0:00 [kdevtmpfs]
+   20 ?        S<     0:00 [netns]
+   21 ?        S      0:00 [khungtaskd]
+   22 ?        S      0:00 [oom_reaper]
+   23 ?        S<     0:00 [writeback]
+   24 ?        S      0:00 [kcompactd0]
+   26 ?        SN     0:00 [ksmd]
+   27 ?        S<     0:00 [crypto]
+   28 ?        S<     0:00 [kintegrityd]
+   29 ?        S<     0:00 [bioset]
+   30 ?        S<     0:00 [kblockd]
+   31 ?        S<     0:00 [devfreq_wq]
+   32 ?        S<     0:00 [watchdogd]
+   33 ?        S      0:00 [kswapd0]
+   34 ?        S<     0:00 [vmstat]
+   46 ?        S<     0:00 [kthrotld]
+   47 ?        S<     0:00 [ipv6_addrconf]
+   83 ?        S      0:00 [kworker/1:2]
+   84 ?        S<     0:00 [bioset]
+   85 ?        S<     0:00 [ata_sff]
+   87 ?        S<     0:00 [bioset]
+   88 ?        S<     0:00 [bioset]
+   89 ?        S<     0:00 [bioset]
+   91 ?        S<     0:00 [bioset]
+   96 ?        S      0:00 [kworker/u4:1]
+   98 ?        S<     0:00 [bioset]
+   99 ?        S<     0:00 [bioset]
+  100 ?        S<     0:00 [bioset]
+  119 ?        S      0:00 [scsi_eh_0]
+  120 ?        S<     0:00 [scsi_tmf_0]
+  121 ?        S<     0:00 [bioset]
+  123 ?        S<     0:00 [kworker/1:1H]
+  124 ?        S<     0:00 [kworker/0:1H]
+  149 ?        S<     0:00 [kworker/u5:0]
+  159 ?        S      0:00 [jbd2/sda1-8]
+  160 ?        S<     0:00 [ext4-rsv-conver]
+  187 ?        Ss     0:00 /lib/systemd/systemd-journald
+  193 ?        S      0:00 [kauditd]
+  200 ?        S      0:00 [kworker/0:3]
+  207 ?        S      0:00 [kworker/1:4]
+  219 ?        Ss     0:00 /lib/systemd/systemd-udevd
+  315 ?        Ssl    0:00 /lib/systemd/systemd-timesyncd
+  345 ?        Ss     0:00 /lib/systemd/systemd-logind
+  356 ?        Ss     0:00 /usr/sbin/cron -f
+  358 ?        Ss     0:00 /usr/sbin/irqbalance --foreground
+  359 ?        Ss     0:00 /usr/bin/dbus-daemon --system --address=systemd: --nofork --nopidfile --systemd-activation
+  362 ?        Ss     0:00 /sbin/dhclient -4 -v -pf /run/dhclient.eth0.pid -lf /var/lib/dhcp/dhclient.eth0.leases -I -df /var/lib/dhcp/dhclient6.eth0.leases eth0
+  369 ?        Ssl    0:00 /usr/sbin/rsyslogd -n
+  371 tty1     Ss+    0:00 /sbin/agetty --noclear tty1 linux
+  627 ?        Ss     0:00 /usr/sbin/exim4 -bd -q30m
+  631 ?        Ss     0:00 sshd: vagrant [priv]
+  633 ?        Ss     0:00 /lib/systemd/systemd --user
+  634 ?        S      0:00 (sd-pam)
+  640 ?        S      0:00 sshd: vagrant@pts/0
+  641 pts/0    Ss     0:00 -bash
+  660 ?        Ss     0:00 /usr/sbin/sshd -D
+  712 ?        S      0:00 [kworker/0:0]
+ 1657 ?        S      0:00 [kworker/u4:2]
+ 1693 pts/0    R+     0:00 ps ax
