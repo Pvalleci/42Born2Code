@@ -36,14 +36,12 @@ void			ft_sort_by_ascii(char **tab)
 		best = i;
 		while (tab[j])
 		{
-			if (tab[j] && tab[j + 1] && ft_strcmp(tab[j], tab[j + 1]) < 0)
+			if (tab[j] && tab[j + 1] && ft_strcmp(tab[j], tab[j + 1]) > 0)
 			{
-				// printf("swap de : %s ET %s\n", tab[j], tab[j+ 1]);
 				ft_swap_str(&tab[j], &tab[j + 1]);
 			}
 			j++;
 		}
-		// ft_swap_str(&tab[best], &tab[i]);
 		i++;
 	}
 }
@@ -69,67 +67,65 @@ static void		ft_rev_tab(char **tab)
 	}
 }
 
-int				ft_cmp_tmp(char *tab, char *tab2, char *path)
-{
-	printf("ft_cmp_tmp\n");
-	struct stat buf;
-	struct stat buf2;
-	char		*tmp;
-	char		*tmp2;
-	int			retour;
 
+int			ft_cmp_tmp(char *s1, char *s2, char *path)
+{
+	struct stat sb1;
+	struct stat sb2;
+	int 	i;
+	char  	buf1[125];
+	char 	buf2[125];
+
+	i = 0;
 	if (path)
 	{
-		tmp = ft_clean_path(path, tab);
-		tmp2 = ft_clean_path(path, tab2);
+		i = ft_strlen(path);
+		ft_strcpy(buf1, path);
+		ft_strcpy((buf1 + i), "/");
+		ft_strcpy(buf2, path);
+		ft_strcpy((buf2 + i), "/");
+		i++;
 	}
-	else
+	ft_strcpy(buf1 + i,  s1);
+	ft_strcpy(buf2 + i,  s2);
+	if (stat(buf1, &sb1) != 0)
+		return (-2);
+	if (stat(buf2, &sb2) != 0)
+		return (-2);
+	if (sb1.st_mtime < sb2.st_mtime)
+		return (1);
+	else if (sb1.st_mtime > sb2.st_mtime)
+		return (-1);
+	else if (sb1.st_mtime == sb2.st_mtime)
 	{
-		tmp = ft_strdup(tab);
-		tmp2 = ft_strdup(tab2);
+		if (ft_strcmp(s1, s2) < 0)
+			return (1);
 	}
-	printf("tmp : %s\n", tmp);
-	printf("tmp2 : %s\n", tmp2);
-	if ((stat(tmp, &buf) != 0) || ((stat(tmp2, &buf2)) != 0))
-	{
+	return (0);
 
-		retour = 0;
-		printf("stat error\n");
-	}
-	else if (buf.st_mtime < buf2.st_mtime)
-		retour = 1;
-	else if (buf.st_mtime > buf2.st_mtime)
-		retour = -1;
-	else
-		retour = 0;
-	ft_strdel(&tmp);
-	ft_strdel(&tmp2);
-	return (retour);
 }
+
 
 void		ft_sort_m_time(char **tab, char *path)
 {
-	// int end;
-
-	// end = ft_len_tab(tab);
-	// printf("end : %d\n", end);
-	// ft_quicksort(tab, 0, end - 1, ft_cmp_tmp, path);
-	// printf("fin quicksort\n");
 	int		i;
-	char	*swap;
+	int		j;
+	int		ret;
 
 	i = 0;
-	while (tab && tab[i])
+	while (tab[i])
 	{
-		if (tab[i + 1] && ft_cmp_tmp(tab[i], tab[i + 1], path) == -1)
+		j = 0;
+		while (tab[j])
 		{
-			swap = tab[i];
-			tab[i] = tab[i + 1];
-			tab[i + 1] = swap;
-			i = 0;
+			if (tab[j] && tab[j + 1] && (ft_cmp_tmp(tab[j] , tab[j + 1], path)) == 1)
+			{
+				ft_swap_str(&tab[j], &tab[j + 1]);
+				j = -1;
+			}
+			j++;
 		}
-		else
-			i++;
+		i++;
 	}
 }
 
@@ -206,16 +202,17 @@ static void	ft_quicksort_ascii(char **number, int first, int last, int (*f)(cons
 
 void		ft_sort(char **tab, char *path, char *option)
 {
-	// printf("sort\n");
-	ft_quicksort_ascii(tab, 0, ft_len_tab(tab) - 1, &ft_strcmp);//trie par ordre ascii
+	//ft_quicksort_ascii(tab, 0, ft_len_tab(tab) - 1, &ft_strcmp);//trie par ordre ascii
+	ft_sort_by_ascii(tab);
 	// printf("fin sort\n");
 	if (ft_strchr(option, 't'))
  	{
- 		ft_quicksort_mtime(tab, 0, ft_len_tab(tab) - 1, path);
-		// ft_sort_m_time(tab, path);
+ 		//ft_quicksort_mtime(tab, 0, ft_len_tab(tab) - 1, path);
+		ft_sort_m_time(tab, path);
 	}
 	if (ft_strchr(option, 'r') != NULL)
 	{
 		ft_rev_tab(tab);
 	}
 }
+

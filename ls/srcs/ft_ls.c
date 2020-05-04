@@ -54,6 +54,15 @@ char		**ft_create_tmp(char *path, char *intra_rep)
 	return (tmp_recur);
 }
 
+int			ft_check_intra_rep(char **intra_rep, char *option)
+{
+	if (intra_rep == NULL)
+		return (-1);
+	if ((ft_filter_recursive(option, intra_rep) == -1))
+		ft_free_tab(intra_rep);
+	return (-1);
+}
+
 int			ft_recursive_ls(char *path, char *option, int i)
 {
 	char	*tmp;
@@ -62,17 +71,11 @@ int			ft_recursive_ls(char *path, char *option, int i)
 	int 	j;
 	struct stat buf;
 
-	intra_rep = NULL;
 	j = 0;
 	if (!(intra_rep = ft_get_intra_rep(path)))
-	{
-		if (intra_rep == NULL)
+		if (ft_check_intra_rep(intra_rep, option) == -1)
 			return (-1);
-		if ((ft_filter_recursive(option, intra_rep) == -1))
-			ft_free_tab(intra_rep);
-		return (-1);
-	}
-	ft_sort(intra_rep, NULL, option);
+	ft_sort(intra_rep, path, option);
 	while (intra_rep && intra_rep[j])
 	{
 		tmp = ft_clean_path(path, intra_rep[j]);
@@ -98,9 +101,10 @@ void		ft_rep_tab(char **rep_tab, int i, char *option)
 	j = 0;
 	while (rep_tab && rep_tab[j])
 	{	
-		ft_display_rep(rep_tab[j], option, i);
+		if (ft_strchr(option, 'l') == NULL)
+			ft_display_rep(rep_tab[j], option, i);
 		i++;
-		if (rep_tab[j + 1] && ft_strchr(option, 'R') == NULL)
+		if (rep_tab[j + 1] && ft_strchr(option, 'R') == NULL && ft_strchr(option, 'l') == NULL)
 			write(1, "\n", 1);
 		if (option && ft_strchr(option, 'R') != NULL 
 			&& (stat(rep_tab[j], &buf) == 0) && S_ISDIR(buf.st_mode))
@@ -118,21 +122,20 @@ void		ft_rep_tab(char **rep_tab, int i, char *option)
 
 void		ft_ls(char **path, char *option, int i)
 {
-	int			j;
 	char		**rep_tab;
 	char		**file_tab;
 
-	rep_tab = NULL;
-	file_tab = NULL;
-	j = 0;
 	ft_sort(path, NULL, option);
 	ft_separate_path(path, &rep_tab, &file_tab);
-	if (ft_strchr(option, 'l'))
+	if (ft_strchr(option, 'l') != NULL)
 	{
-		ft_opt_long(path, option);
+		ft_opt_long(path, option, 0);
+		if (file_tab)
+			ft_free_tab(file_tab);
 	}
-	if (file_tab)
+	if (file_tab && ft_strchr(option, 'l') == NULL)
 	{
+		printf("ls file : %p\n", file_tab);
 		ft_display(NULL, file_tab, option);
 		ft_free_tab(file_tab);
 		if (rep_tab /*&& ft_strchr(option, 'R') == NULL*/)
@@ -141,7 +144,6 @@ void		ft_ls(char **path, char *option, int i)
 	if (rep_tab)
 	{
 		ft_sort(rep_tab, NULL, option);
-		// printf("\n");
 		ft_rep_tab(rep_tab, i, option);
 		ft_free_tab(rep_tab);
 	}
@@ -153,8 +155,6 @@ int			main(int ac, char **av)
 	char		**path;
 	int			i;
 
-	// if (ac != 2)
-	// 	path = ft_create_path();
 	path = NULL;
 	option = ft_pars_option(ac, av);
 	ft_verif_option(option);
@@ -172,5 +172,17 @@ int			main(int ac, char **av)
 		ft_free_tab(path);
 	}
 	ft_strdel(&option);
+	
+	// pid_t pid = getpid();
+	// printf("pid : %d\n", pid);
+	// while (1)
+	// 	continue ;
 	return 1;
 }
+
+
+
+
+
+
+

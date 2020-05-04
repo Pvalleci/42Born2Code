@@ -56,8 +56,11 @@ void		ft_display(char *path, char **file_tab, char *option)
 {
 	ft_sort(file_tab, path, option);
 	if (ft_strchr(option, 'l'))
-		ft_opt_long(file_tab, option);
-	ft_display_ioctl(file_tab, option);
+	{
+		ft_opt_long(file_tab, option, 0);
+	}
+	else
+		ft_display_ioctl(file_tab, option);
 }
 
 void		ft_display_rep(char *path, char *option, int i)
@@ -72,10 +75,16 @@ void		ft_display_rep(char *path, char *option, int i)
 	}
 	if (path)
 		intra_rep = ft_get_intra_rep(path);
+	if (ft_strchr(option, 'l') != NULL)
+	{
+		ft_opt_long(intra_rep, option, 0);
+		return ;
+	}
 	if (intra_rep)
 	{
 		if (ft_len_tab(intra_rep) == 2 && ft_strchr(option, 'a') == NULL)
 		{
+			printf("errror\n");
 			ft_free_tab(intra_rep);
 			return ;
 		}

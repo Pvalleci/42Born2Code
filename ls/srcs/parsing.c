@@ -84,11 +84,11 @@ char		**ft_pars_folders(int argc, char **argv)
 		i++;
 	}
 	folders[j] = NULL;
-	if (folders[0][0] == '\0')
+	/*if (folders[0][0] == '\0')
 	{
 		ft_free_tab(folders);
 		folders = NULL;
-	}
+	}*/
 	return (folders);
 }
 
@@ -129,8 +129,7 @@ char		**ft_verif_folders(char **folders)
 		return (NULL);
 	while (folders[i] != NULL)
 	{
-		// stat(folders[i], &buf);
-		if ((stat(folders[i], &buf)) < 0)//!(S_ISREG(buf.st_mode) || S_ISDIR(buf.st_mode))
+		if ((stat(folders[i], &buf)) != 0)//!(S_ISREG(buf.st_mode) || S_ISDIR(buf.st_mode))
 		{
 			if (ft_is_not_directory(folders[i]) == 0)
 				printf("ft_ls: %s: Not a directory\n", folders[i]);

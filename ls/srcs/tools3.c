@@ -32,3 +32,18 @@ int		ft_filter_recursive(char *option, char **intra_rep)
 			return (-1);
 		return (1);
 }
+
+int	ft_nbrlen(int nb)
+{
+	int len;
+
+	len = 0;
+	if (nb == 0)
+		return (1);
+	while (nb > 0)
+	{
+		nb = nb / 10;
+		len++;
+	}
+	return (len);
+}

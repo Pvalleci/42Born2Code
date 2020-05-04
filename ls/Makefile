@@ -41,13 +41,13 @@ LIB = libft/libft.a
 all : $(NAME)
 
 $(NAME) : $(OBJS) $(LIB)
-	@$(CC) $(FLAGS) -o $(NAME) $(OBJS) $(LIB)
+	@$(CC)  -o $(NAME) $(OBJS) $(LIB)
 
 $(LIB) : $(LIB_PATH)
 	@make -C $(LIB_PATH)
 
 %.o : $(SRCS_PATH)%.c
-	@$(CC) $(FLAGS) -c $(SRCS)
+	@$(CC)  -c $(SRCS)
 
 clean :
 	@make -C $(LIB_PATH) clean

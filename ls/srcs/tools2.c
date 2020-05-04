@@ -49,7 +49,7 @@ int				ft_len_tab(char **tab)
 
 }
 
-static char		**ft_create_file_tab(char **tab)
+char		**ft_create_file_tab(char **tab)
 {
 	int			i;
 	int			len;
@@ -87,7 +87,7 @@ static char		**ft_create_file_tab(char **tab)
 	return (file_tab);
 }
 
-static int 		ft_count_rep(char **tab)
+int 		ft_count_rep(char **tab)
 {
 	int i;
 	int len;
@@ -95,7 +95,7 @@ static int 		ft_count_rep(char **tab)
 
 	i = 0;
 	len = 0;
-	while (tab[i])//compte le nombre de file dans tab;
+	while (tab[i])//compte le nombre de rep dans tab;
 	{
 		stat(tab[i], &buf);
 		if (S_ISDIR(buf.st_mode))
@@ -105,7 +105,7 @@ static int 		ft_count_rep(char **tab)
 	return (len);
 }
 
-static char		**ft_create_rep_tab(char **tab)
+char		**ft_create_rep_tab(char **tab)
 {
 	int			i;
 	int			len;

@@ -41,30 +41,42 @@ typedef struct 		s_opt_l
 
 }					t_opts;
 
-void		ft_display_ioctl(char **file_tab, char *option);
-char		**ft_buf_tab(char **tab, int nb_column, int	len_line, int len_max);
+typedef struct		s_size
+{
+	int 	nblink_size;
+	int		pws_size;
+	int		grp_size;
+	int		size_max;
+}					t_size;
+
 int			ft_len_tab(char **tab);
 int			ft_is_not_directory(char *str);
+int			ft_verif_option(char *option);
+int 		ft_only_char(char *str, char c);
+int			ft_nbrlen(int nb);
+int 		ft_count_rep(char **tab);
 void		ft_sort_by_ascii(char **tab);
 void		ft_free_tab(char **tab);
 char		*ft_pars_option(int argc, char **argv);
-int			ft_verif_option(char *option);
-int 		ft_only_char(char *str, char c);
 char		**ft_pars_folders(int argc, char **argv);
 char		**ft_verif_folders(char **folders);
+char		**ft_buf_tab(char **tab, int nb_column, int	len_line, int len_max);
 void		ft_separate_path(char **path, char ***rep_tab, char ***file_tab);
 void		ft_display_rep(char *path, char *option, int i);
 void		ft_display(char *path, char **file_tab, char *option);
+void		ft_display_ioctl(char **file_tab, char *option);
 char		**ft_get_intra_rep(char *rep);
 void		ft_ls(char **path, char *option, int i);
 int			ft_get_len_max(char **tab);
 char		**ft_copy_tab(char **tab);
 char		**ft_clean_tab(char **tab, char *option);
 int			ft_filter_recursive(char *option, char **intra_rep);
-void		ft_opt_long(char **tab, char *opt);
+int			ft_opt_long(char **tab, char *opt, int total);
 char		*ft_clean_path(char *path, char *rep);
 int 		ft_check_space(char **rep_tab, int j, char *option);
 void		ft_sort(char **tab, char *path, char *option);
 void		ft_quicksort(char **tab, int start, int end, void *f, char *path);
-
+void		ft_sort_long(char **tab, char *option);
+char		**ft_create_rep_tab(char **tab);
+char		**ft_create_file_tab(char **tab);
 #endif
