@@ -36,7 +36,7 @@ int		ft_is_not_directory(char *str)
 	return (0);
 }
 
-int				ft_len_tab(char **tab)
+int			ft_len_tab(char **tab)
 {
 	int		i;
 
@@ -46,7 +46,29 @@ int				ft_len_tab(char **tab)
 	while (tab[i] != NULL)
 		i++;
 	return (i);
+}
 
+char		**ft_input_file(char **file_tab, char **tab)
+{
+	int			i;
+	int			len;
+	struct stat	buf;
+
+	i = 0;
+	len = 0;
+	while (tab[i])
+	{
+		stat(tab[i], &buf);
+		if (!(S_ISDIR(buf.st_mode)))
+		{
+			if (!(file_tab[len] = ft_strdup(tab[i])))
+				return (NULL);
+			len++;
+		}
+		i++;
+	}
+	file_tab[len] = NULL;
+	return (file_tab);
 }
 
 char		**ft_create_file_tab(char **tab)
@@ -70,32 +92,20 @@ char		**ft_create_file_tab(char **tab)
 	if (!(file_tab = (char **)malloc(sizeof(char *) * (len + 1))))
 		return (NULL);
 	file_tab[len] = NULL;
-	len = 0;
-	i = 0;
-	while (tab[i])
-	{
-		stat(tab[i], &buf);
-		if (!(S_ISDIR(buf.st_mode)))
-		{
-			if (!(file_tab[len] = ft_strdup(tab[i])))
-				return (NULL);
-			len++;
-		}
-		i++;
-	}
-	file_tab[len] = NULL;
+	if (!(file_tab = ft_input_file(file_tab, tab)))
+		return (NULL);
 	return (file_tab);
 }
 
-int 		ft_count_rep(char **tab)
+int			ft_count_rep(char **tab)
 {
-	int i;
-	int len;
-	struct stat buf;
+	int			i;
+	int			len;
+	struct stat	buf;
 
 	i = 0;
 	len = 0;
-	while (tab[i])//compte le nombre de rep dans tab;
+	while (tab[i])
 	{
 		stat(tab[i], &buf);
 		if (S_ISDIR(buf.st_mode))
@@ -120,7 +130,7 @@ char		**ft_create_rep_tab(char **tab)
 	i = 0;
 	file_tab[len] = NULL;
 	len = 0;
-	while (tab[i])//copie des files dans file_tab
+	while (tab[i])
 	{
 		stat(tab[i], &buf);
 		if (S_ISDIR(buf.st_mode))
@@ -130,7 +140,6 @@ char		**ft_create_rep_tab(char **tab)
 		}
 		i++;
 	}
-//	ft_print_table(file_tab);
 	return (file_tab);
 }
 
@@ -140,7 +149,7 @@ void		ft_separate_path(char **path, char ***rep_tab, char ***file_tab)
 	*rep_tab = ft_create_rep_tab(path);
 }
 
-int 		ft_only_char(char *str, char c)
+int		ft_only_char(char *str, char c)
 {
 	int i;
 

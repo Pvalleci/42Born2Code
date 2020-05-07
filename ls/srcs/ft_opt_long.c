@@ -207,11 +207,8 @@ t_size  ft_take_size(struct stat stats, t_size size)
 	grp = getgrgid(stats.st_gid);
 	if (size.nblink_size < ft_nbrlen(stats.st_nlink))
 		size.nblink_size = ft_nbrlen(stats.st_nlink);
-	printf("ici\n");
-	printf("------>  %s\n", pws->pw_name);
 	if (size.pws_size < ft_strlen(pws->pw_name))
 		size.pws_size = ft_strlen(pws->pw_name);
-	printf("hhh\n");
 	if (size.grp_size < ft_strlen(grp->gr_name))
 		size.grp_size = ft_strlen(grp->gr_name);
 	if (size.size_max < ft_nbrlen(stats.st_size))
@@ -228,21 +225,17 @@ t_size	ft_print_total(char *tab, char **contenu, int i, char *option)
 	
 	total = 0;
 	size = ft_start_struct_size(size, 0);
-	printf("salut\n");
-	ft_print_table(contenu);
+	//ft_print_table(contenu);
 	while (contenu[i])
 	{
 		if ((ft_strchr(option, 'a') == NULL) && contenu[i][0] == '.')
 			i++;
 		else
 		{
-			printf("tete\n");
 			path = ft_clean_path(tab, contenu[i]);
-			printf("---> %s\n", path);
 			if (lstat(path, &stats) != 0)
 				return (size);
 			size = ft_take_size(stats, size);
-			printf("take_size\n");
 			total = total + stats.st_blocks;
 			i++;
 			ft_strdel(&path);
@@ -334,15 +327,12 @@ int		ft_opt_long(char **tab, char *option, int total)
 		n = 1;
 	while (rep_tab && rep_tab[j])
 	{
-		printf("coucou\n");
 		if (n == 1)
 			printf("%s:\n", rep_tab[j]);
 		contenu = ft_get_intra_rep(rep_tab[j]);
 		ft_sort(contenu, rep_tab[j], option);
-		printf("coucouc\n");
 		size = ft_print_total(rep_tab[j], contenu, 0, option);
-		printf("coucou2\n");
-		ft_sort(contenu, rep_tab[j], option);
+		//ft_sort(contenu, rep_tab[j], option);
 		while (contenu[i])
 		{
 			path = ft_clean_path(rep_tab[j], contenu[i]);

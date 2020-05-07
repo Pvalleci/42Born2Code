@@ -15,12 +15,12 @@
 void			ft_input_tab_ioctl(char **io_tab, char **tab, int buf)
 {
 	char	tmp_buf[buf + 1];
-	int 	i;
-	int 	j;
-	int 	io;
+	int		i;
+	int		j;
+	int		io;
 
 	i = 0;
-	j = 0; 
+	j = 0;
 	io = 0;
 	while (tab[i])
 	{	
@@ -44,7 +44,7 @@ void			ft_input_tab_ioctl(char **io_tab, char **tab, int buf)
 char			**ft_buf_tab(char **tab, int nb_column, int	len_line, int len_buf)	
 {
 	char		**ioctl_tab;
-	int 		nb_line;
+	int			nb_line;
 	int			i;
 
 	i = 0;
@@ -66,22 +66,32 @@ char			**ft_buf_tab(char **tab, int nb_column, int	len_line, int len_buf)
 	return (ioctl_tab);
 }
 
-char			**ft_clean_tab(char **tab, char *option)
+
+int			ft_len_clean(char **tab)
 {
-	char	**tmp_tab;
 	int		i;
 	int		len;
 
 	i = 0;
 	len = 0;
-	if (ft_strchr(option, 'a') != NULL)
-		return (tab);
 	while (tab[i])
 	{
 		if (tab[i][0] != '.')
 			len++;
 		i++;
 	}
+	return (len);
+}
+
+char			**ft_clean_tab(char **tab, char *option)
+{
+	char	**tmp_tab;
+	int		i;
+	int		len;
+
+	if (ft_strchr(option, 'a') != NULL)
+		return (tab);
+	len = ft_len_tab(tab);
 	if (!(tmp_tab = (char **)malloc(sizeof(char *) * (len + 1))))
 		return (NULL);
 	len = 0;

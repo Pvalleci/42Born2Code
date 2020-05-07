@@ -14,7 +14,7 @@
 
 char		*ft_pars_option(int argc, char **argv)
 {
-	int 	i;
+	int		i;
 	char	*option;
 	char	*tmp;
 	char	*tmp2;
@@ -84,18 +84,13 @@ char		**ft_pars_folders(int argc, char **argv)
 		i++;
 	}
 	folders[j] = NULL;
-	/*if (folders[0][0] == '\0')
-	{
-		ft_free_tab(folders);
-		folders = NULL;
-	}*/
 	return (folders);
 }
 
 char		**ft_valid_folders(char **folders, int i, int j)
 {
-	char	**valid_folders;
-	struct stat		buf;
+	char		**valid_folders;
+	struct stat	buf;
 
 	if (!(valid_folders = (char **)malloc(sizeof(char*) * ((i - j) + 1))))
 		return (NULL);
@@ -129,7 +124,7 @@ char		**ft_verif_folders(char **folders)
 		return (NULL);
 	while (folders[i] != NULL)
 	{
-		if ((stat(folders[i], &buf)) != 0)//!(S_ISREG(buf.st_mode) || S_ISDIR(buf.st_mode))
+		if ((stat(folders[i], &buf)) != 0)
 		{
 			if (ft_is_not_directory(folders[i]) == 0)
 				printf("ft_ls: %s: Not a directory\n", folders[i]);

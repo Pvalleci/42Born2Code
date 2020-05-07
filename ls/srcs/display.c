@@ -69,30 +69,16 @@ void		ft_display_rep(char *path, char *option, int i)
 
 	intra_rep = NULL;
 	if (i > 1 && path && ft_strchr(option, 'l') == NULL)
-	{
-		ft_putstr(path);
-		printf(":\n");
-	}
+		printf("%s:\n", path);
 	if (path)
 		intra_rep = ft_get_intra_rep(path);
 	if (ft_strchr(option, 'l') != NULL)
-	{
 		ft_opt_long(intra_rep, option, 0);
-		return ;
-	}
-	if (intra_rep)
+	else if (intra_rep)
 	{
-		if (ft_len_tab(intra_rep) == 2 && ft_strchr(option, 'a') == NULL)
-		{
-			printf("errror\n");
-			ft_free_tab(intra_rep);
-			return ;
-		}
 		if (ft_strchr(option, 'l') == NULL)
-		{
 			ft_display(path, intra_rep, option);
-			ft_free_tab(intra_rep);
-		}
+		ft_free_tab(intra_rep);
 	}
 	else
 	{
