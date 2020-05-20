@@ -13,7 +13,7 @@
 #include "ft_ls.h"
 
 
-void		ft_print_right(struct stat stats)
+void		ft_print_right(struct stat stats) // GOOD
 {
 	S_ISDIR(stats.st_mode) ? ft_putchar('d') : 0;
 	S_ISREG (stats.st_mode) ? ft_putchar('-') : 0;
@@ -31,93 +31,40 @@ void		ft_print_right(struct stat stats)
 	(stats.st_mode & S_IROTH) ? ft_putchar('r') : ft_putchar('-');
 	(stats.st_mode & S_IWOTH) ? ft_putchar('w') : ft_putchar('-');
 	(stats.st_mode & S_IXOTH) ? ft_putchar('x') : ft_putchar('-');
-	//(stats.st_mode & S_IFLNK) ? ft_putchar('@') : ft_putchar(' ');
 	write(1, " ", 2);
 }
 
-// void ft_take_size(char *rep_tab)
-// {
-// 	char 	**contenu;
-// 	int 	i;
-// 	struct	stat stats;
-
-// 	i = 0;
-// 	contenu = ft_get_intra_rep(tab);
-// 	ft_print_table(contenu);
-// 	while (contenu[i])
-// 	{
-// 		if (stat(contenu[i], &stats) != 0)
-// 			return ;
-// 		ft_print_right(stats);
-// 		printf("\n");
-// 		i++;
-// 	}
-// 	// struct stat stats;
-
-// 	// if (stat(tab, &stats) != 0)
-// 	// 	return ;
-
-	
-// }
-
-// int		ft_print_links_ID(struct stat stats, t_size size)
-// {
-// 	int				i;
-// 	int				links;
-// 	struct group 	*grp;
-// 	struct passwd 	*pws;
-
-// 	i = 1;
-// 	grp = getgrgid(stats.st_gid);
-// 	pws = getpwuid(stats.st_uid);
-// 	links = size.link_size - ft_count_len_int(stats.st_nlink);
-// 	while (links > 0)
-// 	{
-// 		ft_putchar(' ');
-// 		links--;
-// 	}
-// 	printf("%d ", stats.st_nlink);
-// 	fflush(stdout);
-// 	ft_putstr(pws->pw_name);
-// 	links = size.pws_size - ft_strlen(pws->pw_name);
-// 	while (links > 0)
-// 	{
-// 		ft_putchar(' ');
-// 		links--;
-// 	}
-// 	ft_putstr("  ");
-// 	ft_putstr(grp->gr_name);
-// 	links = size.grp_size - ft_strlen(grp->gr_name);
-// 	while (links > 0)
-// 	{
-// 		ft_putchar(' ');
-// 		links--;
-// 	}
-// 	ft_putstr("  |");
-// 	return (1);
-// }
-
-int			ft_date(struct stat stats)
+char		**ft_create_tab_months(void) // GOOD
 {
-	(void)stats;
-	// printf("|..|");
-	// fflush(stdout);
-	char *months[] = { "jan", "fev", "mar",
-				"apr", "may", "jun", "jul",
-				"aug", "sep", "oct",
-				"nov", "dec" };
-	// char *dest;
+	char **tab;
+
+	if (!(tab = malloc(sizeof(char *) * 13)))
+		return (NULL);
+	if (!((tab[0] = ft_strdup("Jan")) && (tab[1] = ft_strdup("Fev"))
+		&& (tab[2] = ft_strdup("Mar")) && (tab[3] = ft_strdup("Apr"))
+		&& (tab[4] = ft_strdup("May")) && (tab[5] = ft_strdup("Jun")) 
+		&& (tab[6] = ft_strdup("Jul")) && (tab[7] = ft_strdup("Aug"))
+		&& (tab[8] = ft_strdup("Sep")) && (tab[9] = ft_strdup("Oct"))
+		&& (tab[10] = ft_strdup("Nov")) && (tab[11] = ft_strdup("Dec"))))
+		return (NULL);
+	tab[12] = NULL;
+	return (tab);
+}
+
+int			ft_date(struct stat stats) // GOOD
+{
+	char **months;
 	struct tm *time;
 
-	// dest = ctime(&stats.st_mtime);
-	time = gmtime(&stats.st_mtime);
 
+	if(!(months = ft_create_tab_months()))
+		return (-1);
+	time = gmtime(&stats.st_mtime);
 	printf("%s ", months[time->tm_mon]);
 	if (time->tm_mday < 10)
 		printf(" ");
 	printf("%d ", time->tm_mday );
 	fflush(stdout);
-	// printf(' ');
 	if ((time->tm_hour + 1) < 10)
 		printf("0");
 	printf("%d", (time->tm_hour + 1));
@@ -125,24 +72,46 @@ int			ft_date(struct stat stats)
 	if (time->tm_min < 10)
 		printf("0");
 	printf("%d", (time->tm_min));
-	// printf(' ');
-	// tmp = ctime(&stats.st_mtime);
-	// write(1, tmp, 16);
-
 	return (1);	
 }
 
-void	ft_brain(struct stat stats, char *name, char *path, t_size size, char *option)
+void	ft_brain_2(struct stat stats, char *name, char *path, t_size size) // GOOD
+{
+	int		space;
+	char	buf[256];
+	int		len;
+	struct group 	*grp;
+	
+	if ((ft_strchr(size.option, 'a') == NULL) && name[0] == '.')
+		return ;
+	grp = getgrgid(stats.st_gid);
+	space = size.grp_size - ft_strlen(grp->gr_name);
+	while (space-- > 0)
+		printf(" ");
+	printf("%s  ", grp->gr_name);
+	space = size.size_max - ft_nbrlen(stats.st_size);
+	while (space-- > 0)
+		printf(" ");
+	printf("%lld ", stats.st_size);
+	ft_date(stats);
+	printf(" %s", name);
+	if (S_ISLNK(stats.st_mode))
+	{
+		len = readlink(path, buf, sizeof(buf));
+		buf[len] = '\0';
+		printf(" -> %s", buf);
+	}
+	printf("\n");
+
+}
+
+void	ft_brain(struct stat stats, char *name, t_size size) // GOOD
 {
 	int space;
 	struct passwd 	*pws;
-	struct group 	*grp;
-	char	buf[256];
-	int len;
 
 	pws = getpwuid(stats.st_uid);
-	grp = getgrgid(stats.st_gid);
-	if ((ft_strchr(option, 'a') == NULL) && name[0] == '.')
+	if ((ft_strchr(size.option, 'a') == NULL) && name[0] == '.')
 		return ;
 
 	space = size.nblink_size - ft_nbrlen(stats.st_nlink);
@@ -154,30 +123,9 @@ void	ft_brain(struct stat stats, char *name, char *path, t_size size, char *opti
 	while (space-- > 0)
 		printf(" ");
 	printf("%s  ", pws->pw_name);
-	space = size.grp_size - ft_strlen(grp->gr_name);
-	while (space-- > 0)
-		printf(" ");
-	printf("%s  ", grp->gr_name);
-	space = size.size_max - ft_nbrlen(stats.st_size);
-	while (space-- > 0)
-		printf(" ");
-	printf("%lld ", stats.st_size);
-
-	ft_date(stats);
-
-	printf(" %s", name);
-	if (S_ISLNK(stats.st_mode))
-	{
-		len = readlink(path, buf, sizeof(buf));
-		buf[len] = '\0';
-		printf(" -> %s", buf);
-	}
-	printf("\n");
-	//printf("NAME = %s, PATH = %s\n", name, path);
-	//printf("\n");
 }
 
-t_size ft_start_struct_size(t_size size, int i)
+t_size ft_start_struct_size(t_size size, int i) // GOOD
 {
 	size.nblink_size = i;
 	size.pws_size = i;
@@ -186,24 +134,15 @@ t_size ft_start_struct_size(t_size size, int i)
 	return (size);
 }
 
-t_size  ft_take_size(struct stat stats, t_size size)
+t_size  ft_take_size(struct stat stats, t_size size, char *option) // GOOD
 {
 	struct group 	*grp;
 	struct passwd 	*pws;
 
 	pws = getpwuid(stats.st_uid);
 	if(pws == NULL)
-	{
 		printf("NULL\n");
-		perror("getpwuid");
-		// pws = getpwnam("/Applications/Adobe/Adobe Acrobat X Pro/Acrobat Distiller.app/Contents/Frameworks/AMTLibWrapper.framework/Resources");
-		// if (pws == NULL)
-		// {
-		// 	perror("getpwnam");
-		// 	printf("NULL aussi\n");
-		// }
-	}
-
+	size.option = option;
 	grp = getgrgid(stats.st_gid);
 	if (size.nblink_size < ft_nbrlen(stats.st_nlink))
 		size.nblink_size = ft_nbrlen(stats.st_nlink);
@@ -216,7 +155,7 @@ t_size  ft_take_size(struct stat stats, t_size size)
 	return (size);
 }
 
-t_size	ft_print_total(char *tab, char **contenu, int i, char *option)
+t_size	ft_print_total(char *tab, char **contenu, int i, char *option) // GOOD
 {
 	int 	total;
 	char 	*path;
@@ -225,7 +164,6 @@ t_size	ft_print_total(char *tab, char **contenu, int i, char *option)
 	
 	total = 0;
 	size = ft_start_struct_size(size, 0);
-	//ft_print_table(contenu);
 	while (contenu[i])
 	{
 		if ((ft_strchr(option, 'a') == NULL) && contenu[i][0] == '.')
@@ -235,7 +173,7 @@ t_size	ft_print_total(char *tab, char **contenu, int i, char *option)
 			path = ft_clean_path(tab, contenu[i]);
 			if (lstat(path, &stats) != 0)
 				return (size);
-			size = ft_take_size(stats, size);
+			size = ft_take_size(stats, size, option);
 			total = total + stats.st_blocks;
 			i++;
 			ft_strdel(&path);
@@ -245,7 +183,7 @@ t_size	ft_print_total(char *tab, char **contenu, int i, char *option)
 	return (size);
 }
 
-t_size 	ft_just_take_size(char **contenu)
+t_size 	ft_just_take_size(char **contenu, char *option) // GOOD
 {
 	t_size size;
 	struct stat stats;
@@ -259,13 +197,13 @@ t_size 	ft_just_take_size(char **contenu)
 	{
 		if(lstat(contenu[i], &stats) != 0)
 			return (size);
-		size = ft_take_size(stats, size);
+		size = ft_take_size(stats, size, option);
 		i++;
 	}
 	return (size);
 }
 
-char 	**ft_get_rep_tab(char **tab)
+char 	**ft_get_rep_tab(char **tab) // GOOD
 {
 	int 	i;
 	int 	j;
@@ -294,69 +232,87 @@ char 	**ft_get_rep_tab(char **tab)
 	return (rep_tab);
 }
 
-int		ft_opt_long(char **tab, char *option, int total)
+int		ft_long_p1(int n, int j, char *option, char ** tab)
 {
-	// printf("coucou\n");
-	char 	**contenu;
 	char	**rep_tab;
 	char	**file_tab;
-	int 	i;
-	int		j;
-	struct	stat stats;
-	char	*path;
-	static int n = 0;
 	t_size	size;
+	struct	stat stats;
 
-	i = 0;
-	j = 0;
+
 	rep_tab = ft_get_rep_tab(tab);
 	file_tab = ft_create_file_tab(tab);
 	while (file_tab && file_tab[j])
 	{
 		n = 1;
-		size = ft_just_take_size(file_tab);
+		size = ft_just_take_size(file_tab, option);
 		if (lstat(file_tab[j], &stats) != 0)
 			return (0);
-		ft_brain(stats, file_tab[j], file_tab[j], size, option);
+		ft_brain(stats, file_tab[j], size);
+		ft_brain_2(stats, file_tab[j], file_tab[j], size);
 		j++;
 	}
-	j = 0;
 	if (file_tab && rep_tab)
 		printf("\n");
 	if (ft_len_tab(rep_tab) > 1)
 		n = 1;
-	while (rep_tab && rep_tab[j])
+	return (n);
+}
+
+void	ft_start_brain(char *path, struct stat stats, char *contenu, t_size size)
+{
+	if (lstat(path, &stats) != 0)
+		return ;
+	ft_brain(stats, contenu, size);
+	ft_brain_2(stats, contenu, path, size);
+	ft_strdel(&path);
+}
+
+void	ft_long_p2(int n, int j, char **rep_tab, char *option)
+{
+	t_size	size;
+	struct	stat stats;
+	char 	**contenu;
+	int 	i;
+	char	*path;
+
+	while (rep_tab && rep_tab[++j])
 	{
 		if (n == 1)
 			printf("%s:\n", rep_tab[j]);
 		contenu = ft_get_intra_rep(rep_tab[j]);
 		ft_sort(contenu, rep_tab[j], option);
 		size = ft_print_total(rep_tab[j], contenu, 0, option);
-		//ft_sort(contenu, rep_tab[j], option);
+		i = 0;
 		while (contenu[i])
 		{
 			path = ft_clean_path(rep_tab[j], contenu[i]);
-			if (lstat(path, &stats) != 0)
-				return (0);
-			ft_brain(stats, contenu[i], path, size, option);
+			ft_start_brain(path, stats, contenu[i], size);
 			i++;
-			ft_strdel(&path);
 		}
 		ft_free_tab(contenu);
-		j++;
-		i = 0;
-		total = 0;
 		n = 1;
-		if (rep_tab[j])
+		if (rep_tab[j + 1])
 			printf("\n");
 	}
+}
+
+int		ft_opt_long(char **tab, char *option)
+{
+	char	**rep_tab;
+	char	**file_tab;
+	struct	stat stats;
+	static int n = 0;
+
+	n = ft_long_p1(n, 0, option, tab);
+	
+	rep_tab = ft_get_rep_tab(tab);
+	file_tab = ft_create_file_tab(tab);
+	ft_long_p2(n, -1, rep_tab, option);
+	n = 1;
 	if (rep_tab)
 		ft_free_tab(rep_tab);
 	if (file_tab)
-	{
-		// printf("file : %p\n", file_tab);
 		ft_free_tab(file_tab);
-	}
 	return (0);
 }
-

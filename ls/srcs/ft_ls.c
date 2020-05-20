@@ -137,7 +137,7 @@ void		ft_ls(char **path, char *option, int i)
 	ft_separate_path(path, &rep_tab, &file_tab);
 	if (ft_strchr(option, 'l') != NULL)
 	{
-		ft_opt_long(path, option, 0);
+		ft_opt_long(path, option);
 		if (file_tab)
 			ft_free_tab(file_tab);
 	}

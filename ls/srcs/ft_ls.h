@@ -47,6 +47,7 @@ typedef struct		s_size
 	int		pws_size;
 	int		grp_size;
 	int		size_max;
+	char 	*option;
 }					t_size;
 
 int			ft_len_tab(char **tab);
@@ -71,7 +72,7 @@ int			ft_get_len_max(char **tab);
 char		**ft_copy_tab(char **tab);
 char		**ft_clean_tab(char **tab, char *option);
 int			ft_filter_recursive(char *option, char **intra_rep);
-int			ft_opt_long(char **tab, char *opt, int total);
+int			ft_opt_long(char **tab, char *opt);
 char		*ft_clean_path(char *path, char *rep);
 int 		ft_check_space(char **rep_tab, int j, char *option);
 void		ft_sort(char **tab, char *path, char *option);
